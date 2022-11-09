@@ -16,5 +16,23 @@
             public const string PriceMinValue = "0.00";
             public const string PriceMaxValue = "100000.00";
         }
+
+        public static class ProductType
+        {
+            public const int NameMinLength = 5;
+            public const int NameMaxLength = 50;
+        }
+
+        public static class User
+        {
+            public const int UserNameMinLength = 5;
+            public const int UserNameMaxLength = 50;
+
+            public const int EmailMinLength = 10;
+            public const int EmailMaxLength = 60;
+
+            public const int PasswordMinLength = 5;
+            public const int PasswordMaxLength = 20;
+        }
     }
 }

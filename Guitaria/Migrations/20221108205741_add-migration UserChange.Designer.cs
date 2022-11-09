@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Guitaria.Data.Migrations
+namespace Guitaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221108203624_Initial")]
-    partial class Initial
+    [Migration("20221108205741_add-migration UserChange")]
+    partial class addmigrationUserChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

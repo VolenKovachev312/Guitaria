@@ -12,6 +12,8 @@ namespace Guitaria.Data.Models
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
 
+        
+
         public IEnumerable<Product> Products { get; set; }
         = new List<Product>();
 
