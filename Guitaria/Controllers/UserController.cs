@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Guitaria.Models;
+using Guitaria.Models.User;
 
 namespace Guitaria.Controllers
 {
@@ -54,6 +54,7 @@ namespace Guitaria.Controllers
 
             if (result.Succeeded)
             {
+                await userManager.AddToRoleAsync(user, "User");
                 await signInManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Home");
             }

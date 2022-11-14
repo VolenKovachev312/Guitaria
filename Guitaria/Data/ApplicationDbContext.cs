@@ -18,7 +18,9 @@ namespace Guitaria.Data
         public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             base.OnModelCreating(builder);
         }
+        
     }
 }

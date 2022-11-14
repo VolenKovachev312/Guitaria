@@ -1,0 +1,31 @@
+﻿@model CreateRoleViewModel
+@{
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+                            <form id="roleCreation" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-outline mb-4">
+                                    <label asp-for="@Model.RoleName">Role Name</label>
+                                    <input id="form3Example3cg" class="form-control form-control-lg" autocomplete="username" aria-required="true" asp-for="@Model.RoleName" />
+                                    <span asp-validation-for="@Model.RoleName" class="text-danger"></span>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button id="roleCreation" type="submit" class="btn btn-primary btn-success btn-block btn-lg gradient-custom-4 text-body">Create Role</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

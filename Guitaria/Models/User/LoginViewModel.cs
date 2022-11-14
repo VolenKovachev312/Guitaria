@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Guitaria.Models
+namespace Guitaria.Models.User
 {
     public class LoginViewModel
     {

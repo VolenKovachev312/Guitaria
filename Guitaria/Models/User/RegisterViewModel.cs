@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Guitaria.Data.Constants.ConstantValues.User;
 
-namespace Guitaria.Models
+namespace Guitaria.Models.User
 {
     public class RegisterViewModel
     {
