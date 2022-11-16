@@ -18,7 +18,12 @@ namespace Guitaria.Data
         public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+            User admin = new User()
+            {
+                Email = "admin@gmail.com",
+                UserName = "Administrator"
+            };
+            
             base.OnModelCreating(builder);
         }
         

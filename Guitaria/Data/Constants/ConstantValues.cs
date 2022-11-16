@@ -34,5 +34,15 @@
             public const int PasswordMinLength = 5;
             public const int PasswordMaxLength = 20;
         }
+
+        public static class SeedData
+        {
+            public const string AdministratorRole = "Administrator";
+            public const string UserRole = "User";
+
+            public const string AdminEmail = "admin@gmail.com";
+            public const string AdminUserName = "AdminUserName";
+            public const string AdminPassword = "Admin12#";
+        }
     }
 }
