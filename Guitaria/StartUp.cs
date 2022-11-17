@@ -3,6 +3,8 @@ using Guitaria.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Guitaria.Services;
+using Guitaria.Contracts;
+
 namespace Guitaria;
 public class StartUp
 {
@@ -22,7 +24,8 @@ public class StartUp
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
-        
+        builder.Services.AddScoped<IProductService, ProductService>();
+
         var app = builder.Build();
 
         //Seed Database

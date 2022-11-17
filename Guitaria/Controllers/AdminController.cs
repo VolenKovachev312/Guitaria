@@ -24,6 +24,7 @@ namespace Guitaria.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRoleViewModel model)
         {
+           
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -32,6 +33,12 @@ namespace Guitaria.Controllers
             {
                 Name = model.RoleName
             };
+            bool roleExists = await roleManager.RoleExistsAsync(identityRole.Name);
+            if (roleExists)
+            {
+                ModelState.AddModelError("", "Role already exists.");
+                return View(model);
+            }
             IdentityResult result = await roleManager.CreateAsync(identityRole);
             if (result.Succeeded)
             {

@@ -29,10 +29,10 @@ namespace Guitaria.Data.Models
         public string ImageUrl { get; set; }
 
         [Required]
-        [ForeignKey(nameof(ProductType))]
-        public Guid ProductTypeId { get; set; }
+        [ForeignKey(nameof(Category))]
+        public Guid CategoryId { get; set; }
 
-        public virtual ProductType ProductType { get; set; }
+        public virtual Category Category { get; set; }
 
 
     }

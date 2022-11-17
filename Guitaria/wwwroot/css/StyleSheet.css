@@ -46,3 +46,6 @@
         font-size: 12px;
         cursor: pointer;
     }
+.foreground-div{
+    z-index: 999;
+}

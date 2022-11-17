@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Guitaria.Data.Constants.ConstantValues.ProductType;
+using static Guitaria.Data.Constants.ConstantValues.Category;
 
 namespace Guitaria.Data.Models
 {
-    public class ProductType
+    public class Category
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();

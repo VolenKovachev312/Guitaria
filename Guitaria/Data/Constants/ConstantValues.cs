@@ -17,7 +17,7 @@
             public const string PriceMaxValue = "100000.00";
         }
 
-        public static class ProductType
+        public static class Category
         {
             public const int NameMinLength = 5;
             public const int NameMaxLength = 50;
