@@ -17,6 +17,7 @@ namespace Guitaria.Controllers
 
         [HttpGet]
         [Authorize(Roles ="Administrator")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCategory()
         {
             CreateCategoryViewModel model = new CreateCategoryViewModel()
@@ -28,6 +29,7 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCategory(CreateCategoryViewModel model)
         {
             model.Categories = await productService.LoadCategoriesAsync();
@@ -39,6 +41,7 @@ namespace Guitaria.Controllers
             try
             {
                 await productService.AddCategoryAsync(model);
+                //redirect to all categories
             }
             catch (ArgumentException ae)
             {
@@ -63,6 +66,7 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveCategory(CreateCategoryViewModel? model)
         {
             model.Categories = await productService.LoadCategoriesAsync();
@@ -81,6 +85,66 @@ namespace Guitaria.Controllers
                 return View(model);
             }
             model.Categories = await productService.LoadCategoriesAsync();
+
+            return View(model);
+        }
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AddProduct()
+        {
+            CreateProductViewModel model = new CreateProductViewModel()
+            {
+                Categories = await productService.LoadCategoriesAsync()
+            };
+            return View(model);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProduct(CreateProductViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                await productService.AddProductAsync(model);
+                //Redirect to Category with item
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+            return View(model);
+        }
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult RemoveProduct()
+        {
+            RemoveProductViewModel model = new RemoveProductViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveProduct(RemoveProductViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                await productService.RemoveProductAsync(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
 
             return View(model);
         }

@@ -39,24 +39,18 @@ namespace Guitaria.Services
             await context.Categories.AddAsync(entity);
             await context.SaveChangesAsync();
         }
-
-        public async Task<IEnumerable<Category>> LoadCategoriesAsync()
-        {
-            return await context.Categories.ToListAsync();
-        }
-
         public async Task RemoveCategoryAsync(CreateCategoryViewModel model)
         {
             var httpContext = _httpContextAccessor.HttpContext;
             var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
 
             Category? tempCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == model.Name);
-            if(tempCategory == null)
+            if (tempCategory == null)
             {
                 tempData["Error"] = "Category does not exist.";
                 return;
             }
-            if(tempCategory.Products.Any())
+            if (tempCategory.Products.Any())
             {
                 tempData["Error"] = "There are products in this category.";
                 return;
@@ -64,6 +58,43 @@ namespace Guitaria.Services
             context.Categories.Remove(tempCategory);
             await context.SaveChangesAsync();
         }
+
+        public async Task AddProductAsync(CreateProductViewModel model)
+        {
+            Product product = new Product()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                CategoryId = model.CategoryId,
+                Price = model.Price,
+                ImageUrl = model.ImageUrl
+            };
+            await context.Products.AddAsync(product);
+            await context.SaveChangesAsync();
+        }
+        public async Task RemoveProductAsync(RemoveProductViewModel model)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
+            Product? product = await context.Products.FirstOrDefaultAsync(c => c.Name == model.Name);
+            if (product == null)
+            {
+                tempData["Error"] = "Product does not exist.";
+                return;
+            }
+            context.Products.Remove(product);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Category>> LoadCategoriesAsync()
+        {
+            return await context.Categories.ToListAsync();
+        }
+
+        
+
+        
 
         //public async Task AddMovieToCollectionAsync(int movieId, string userId)
         //{
