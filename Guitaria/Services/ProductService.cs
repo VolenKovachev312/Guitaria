@@ -29,7 +29,8 @@ namespace Guitaria.Services
             var entity = new Category()
             {
                 Id = Guid.NewGuid(),
-                Name= model.Name
+                Name= model.Name,
+                ImageUrl=model.ImageUrl
             };
             if(context.Categories.Any(c=>c.Name==model.Name))
             {
@@ -39,7 +40,7 @@ namespace Guitaria.Services
             await context.Categories.AddAsync(entity);
             await context.SaveChangesAsync();
         }
-        public async Task RemoveCategoryAsync(CreateCategoryViewModel model)
+        public async Task RemoveCategoryAsync(RemoveCategoryViewModel model)
         {
             var httpContext = _httpContextAccessor.HttpContext;
             var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
@@ -92,9 +93,21 @@ namespace Guitaria.Services
             return await context.Categories.ToListAsync();
         }
 
-        
+        public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync()
+        {
+            var entities = await context.Products.ToListAsync();
 
-        
+            return entities.Select(e => new ProductCardViewModel
+            {
+                Name=e.Name,
+                ImageUrl=e.ImageUrl,
+                Price=e.Price
+            });
+        }
+
+
+
+
 
         //public async Task AddMovieToCollectionAsync(int movieId, string userId)
         //{

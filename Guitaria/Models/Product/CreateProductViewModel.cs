@@ -22,6 +22,7 @@ namespace Guitaria.Models.Product
         public decimal Price { get; set; }
 
         [Required]
+        [Url]
         public string ImageUrl { get; set; }
 
         [Required]

@@ -5,9 +5,10 @@ namespace Guitaria.Contracts
 {
     public interface IProductService
     {
+        Task<IEnumerable<ProductCardViewModel>> GetAllAsync();
         Task AddCategoryAsync(CreateCategoryViewModel model);
 
-        Task RemoveCategoryAsync(CreateCategoryViewModel model);
+        Task RemoveCategoryAsync(RemoveCategoryViewModel model);
 
         Task<IEnumerable<Category>> LoadCategoriesAsync();
 

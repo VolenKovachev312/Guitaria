@@ -15,9 +15,14 @@ namespace Guitaria.Controllers
             productService = _productService;
         }
 
+        public async Task<IActionResult> All()
+        {
+            var models = await productService.GetAllAsync();
+            return View(models);
+        }
+
         [HttpGet]
         [Authorize(Roles ="Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCategory()
         {
             CreateCategoryViewModel model = new CreateCategoryViewModel()
@@ -57,7 +62,7 @@ namespace Guitaria.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> RemoveCategory()
         {
-            CreateCategoryViewModel model = new CreateCategoryViewModel()
+            RemoveCategoryViewModel model = new RemoveCategoryViewModel()
             {
                 Categories = await productService.LoadCategoriesAsync()
             };
@@ -67,7 +72,7 @@ namespace Guitaria.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveCategory(CreateCategoryViewModel? model)
+        public async Task<IActionResult> RemoveCategory(RemoveCategoryViewModel? model)
         {
             model.Categories = await productService.LoadCategoriesAsync();
 
@@ -117,7 +122,7 @@ namespace Guitaria.Controllers
                 ModelState.AddModelError("", e.Message);
                 return View(model);
             }
-            return View(model);
+            return RedirectToAction("All", "Product");
         }
         [HttpGet]
         [Authorize(Roles = "Administrator")]

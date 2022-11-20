@@ -8,6 +8,9 @@ namespace Guitaria.Models.Product
         [Required]
         public string Name { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        [Required]
+        [Url]
+        public string ImageUrl { get; set; }
+        public IEnumerable<Guitaria.Data.Models.Category> Categories { get; set; } = new List<Category>();
     }
 }

@@ -13,6 +13,9 @@ namespace Guitaria.Data.Models
         [StringLength(NameMaxLength)]
         public string Name { get; set; }
 
+        [Required]
+        public string ImageUrl { get; set; }
+
         public virtual IEnumerable<Product> Products { get; set; }
         = new List<Product>();
 
