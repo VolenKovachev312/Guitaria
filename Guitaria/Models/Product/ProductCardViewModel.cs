@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Guitaria.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Guitaria.Models.Product
 {
@@ -13,5 +14,6 @@ namespace Guitaria.Models.Product
         [Required]
         public string ImageUrl { get; set; }
 
+        IEnumerable<Category> Categories { get; set; }
     }
 }

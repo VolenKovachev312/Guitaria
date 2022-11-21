@@ -1,19 +1,32 @@
 ﻿@model IEnumerable<CategoryViewModel>
 
 <div class="text-center row">
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Error! </strong> @TempData["Error"]
+        </div>
+    }
     @foreach (var category in Model)
     {
         <div class="card" style="width: 18rem; margin-top: 25px; margin-left: 15px;">
-            <img class="card-img-top" style="width: 100%; height: 18rem; margin-top:15px" src="@category.ImageUrl" alt="Card image cap">
-            <hr>
-            <div class="card-body">
-                <center><font size="+2"><p class="card-text mb-3">@category.Name.ToUpper()</p></font></center>
-            </div>
+            <form asp-action="All" asp-controller="Product" method="get" >
+                <button name="categoryName" value="@category.Name" class="btn">
+                    <img class="card-img-top" style="width: 100%; height: 18rem; margin-top:15px" src="@category.ImageUrl" alt="Card image cap">
+                </button>
+            </form>
+                    <hr>
+                    <div class="card-body">
+                        <center><font size="+2"><p class="card-text">@category.Name.ToUpper()</p></font></center>
+                    </div>
+                
             @if(User.IsInRole("Administrator"))
             {
-                <button>
-
+                <form asp-action="Edit" asp-controller="Category" method="get">
+                <button name="categoryName" value="@category.Name" class="btn-dark mb-3">
+                    Edit
                 </button>
+                </form>
             }
         </div>
 

@@ -1,5 +1,7 @@
 ﻿using Guitaria.Contracts;
+using Guitaria.Models.CategoryFolder;
 using Guitaria.Models.Product;
+using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -15,84 +17,15 @@ namespace Guitaria.Controllers
             productService = _productService;
         }
 
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(string categoryName)
         {
-            var models = await productService.GetAllAsync();
+            var models = await productService.GetAllAsync(categoryName);
             return View(models);
         }
 
-        [HttpGet]
-        [Authorize(Roles ="Administrator")]
-        public async Task<IActionResult> AddCategory()
-        {
-            CreateCategoryViewModel model = new CreateCategoryViewModel()
-            {
-                Categories = await productService.LoadCategoriesAsync()
-            };
-            return View(model);
-        }
+        
 
-        [HttpPost]
-        [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCategory(CreateCategoryViewModel model)
-        {
-            model.Categories = await productService.LoadCategoriesAsync();
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            try
-            {
-                await productService.AddCategoryAsync(model);
-                //redirect to all categories
-            }
-            catch (ArgumentException ae)
-            {
-                ModelState.AddModelError("", ae.Message);
-                return View(model);
-            }
-            model.Categories = await productService.LoadCategoriesAsync();
-
-            return View(model);
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> RemoveCategory()
-        {
-            RemoveCategoryViewModel model = new RemoveCategoryViewModel()
-            {
-                Categories = await productService.LoadCategoriesAsync()
-            };
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveCategory(RemoveCategoryViewModel? model)
-        {
-            model.Categories = await productService.LoadCategoriesAsync();
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            try
-            {
-                await productService.RemoveCategoryAsync(model);
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("", e.Message);
-                return View(model);
-            }
-            model.Categories = await productService.LoadCategoriesAsync();
-
-            return View(model);
-        }
+        
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> AddProduct()
@@ -152,6 +85,31 @@ namespace Guitaria.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(string productName)
+        {
+            var model = await productService.GetProductAsync(productName);
+            if (model == null)
+            {
+                ModelState.AddModelError("", "Category doesn't exist");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ProductViewModel model, string productName)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await productService.EditProductAsync(model, productName);
+            return RedirectToAction("All", "Product");
         }
         //[HttpGet]
         //public async Task<IActionResult> All()

@@ -1,7 +1,7 @@
 ﻿using Guitaria.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Guitaria.Models.Product
+namespace Guitaria.Models.CategoryFolder
 {
     public class RemoveCategoryViewModel
     {

@@ -1,6 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data;
 using Guitaria.Data.Models;
+using Guitaria.Models.CategoryFolder;
 using Guitaria.Models.Product;
 using Humanizer.Localisation;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -20,44 +21,10 @@ namespace Guitaria.Services
             _httpContextAccessor = httpContextAccessor;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
         }
-        
 
-        public async Task AddCategoryAsync(CreateCategoryViewModel model)
+        public async Task<IEnumerable<Category>> LoadCategoriesAsync()
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
-            var entity = new Category()
-            {
-                Id = Guid.NewGuid(),
-                Name= model.Name,
-                ImageUrl=model.ImageUrl
-            };
-            if(context.Categories.Any(c=>c.Name==model.Name))
-            {
-                tempData["Error"] = "Category already exists.";
-                return;
-            }
-            await context.Categories.AddAsync(entity);
-            await context.SaveChangesAsync();
-        }
-        public async Task RemoveCategoryAsync(RemoveCategoryViewModel model)
-        {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
-
-            Category? tempCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == model.Name);
-            if (tempCategory == null)
-            {
-                tempData["Error"] = "Category does not exist.";
-                return;
-            }
-            if (tempCategory.Products.Any())
-            {
-                tempData["Error"] = "There are products in this category.";
-                return;
-            }
-            context.Categories.Remove(tempCategory);
-            await context.SaveChangesAsync();
+            return await context.Categories.ToListAsync();
         }
 
         public async Task AddProductAsync(CreateProductViewModel model)
@@ -87,15 +54,18 @@ namespace Guitaria.Services
             context.Products.Remove(product);
             await context.SaveChangesAsync();
         }
-
-        public async Task<IEnumerable<Category>> LoadCategoriesAsync()
+        public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync(string categoryName)
         {
-            return await context.Categories.ToListAsync();
-        }
-
-        public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync()
-        {
-            var entities = await context.Products.ToListAsync();
+            IEnumerable<Product> entities;
+            if(categoryName!=null &&
+                context.Categories.FirstOrDefault(c => c.Name == categoryName) != null)
+            {
+                 entities = await context.Products.Include(p => p.Category).Where(p => p.Category.Name == categoryName).ToListAsync();
+            }
+            else
+            {
+                 entities = await context.Products.ToListAsync();
+            }
 
             return entities.Select(e => new ProductCardViewModel
             {
@@ -103,6 +73,34 @@ namespace Guitaria.Services
                 ImageUrl=e.ImageUrl,
                 Price=e.Price
             });
+        }
+
+        public async Task<ProductViewModel> GetProductAsync(string productName)
+        {
+            
+            Product? tempProduct = await context.Products.FirstOrDefaultAsync(c => c.Name == productName);
+            if (tempProduct == null)
+            {
+                //REDIRECT TO PAGE DOES NOT EXIST
+            }
+            ProductViewModel model = new ProductViewModel()
+            {
+                Name = tempProduct.Name,
+                ImageUrl = tempProduct.ImageUrl,
+                Description=tempProduct.Description,
+                Price=tempProduct.Price
+            };
+            return model;
+        }
+
+        public async Task EditProductAsync(ProductViewModel model, string productName)
+        {
+            var product = context.Products.FirstOrDefault(c => c.Name == productName);
+            product.Name = model.Name;
+            product.ImageUrl = model.ImageUrl;
+            product.Description = model.Description;
+            product.Price = model.Price;
+            await context.SaveChangesAsync();
         }
 
 

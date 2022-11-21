@@ -1,21 +1,36 @@
 ﻿@model IEnumerable<ProductCardViewModel>
+@*<div class="">
+    <form asp-action="All" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="categoryName" />
+                <input type="submit" value="Search" class="btn btn-default" />
+            </p>
+        </div>
+    </form>
+</div>*@
 
 <div class="text-center row">
+    
     @foreach (var product in Model)
     {
         <div class="card" style="width: 18rem; margin-top: 25px; margin-left: 15px;">
             <img class="card-img-top" style="width: 100%; height: 18rem; margin-top:15px" src="@product.ImageUrl" alt="Card image cap">
             <hr>
             <div class="card-body">
-                <center><font size="+2"><p class="card-text mb-3">@product.Name.ToUpper()</p></font></center>
+                <center><font size="+2"><p class="card-text mb-3">@product.Name</p></font></center>
                 <center><font><p class="card-text mb-3">@product.Price</p></font></center>
             </div>
             @if (User.IsInRole("Administrator"))
             {
-                <button>
-                </button>
+                <form asp-action="Edit" asp-controller="Product" method="get">
+                    <button name="productName" value="@product.Name" class="btn-dark mb-3">
+                        Edit
+                    </button>
+                </form>
             }
         </div>
 
     }
+    
 </div>
