@@ -15,7 +15,7 @@
     @foreach (var product in Model)
     {
         <div class="card" style="width: 18rem; margin-top: 25px; margin-left: 15px;">
-            <img class="card-img-top" style="width: 100%; height: 18rem; margin-top:15px" src="@product.ImageUrl" alt="Card image cap">
+            <img class="card-img-top" style="width: 100%; height: 18rem; margin-top:15px; display: flex; gap: 2rem" src="@product.ImageUrl" alt="Card image cap">
             <hr>
             <div class="card-body">
                 <center><font size="+2"><p class="card-text mb-3">@product.Name</p></font></center>

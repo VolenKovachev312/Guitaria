@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Guitaria.Services;
 using Guitaria.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Guitaria;
 public class StartUp
@@ -23,7 +24,10 @@ public class StartUp
             .AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews(options => 
+        {
+            options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+        });
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
 

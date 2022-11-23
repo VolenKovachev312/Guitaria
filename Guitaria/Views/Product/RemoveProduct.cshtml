@@ -25,7 +25,20 @@
                                 <div class="d-flex justify-content-center">
                                     <button id="categoryCreation" type="submit" class="btn btn-primary btn-danger btn-block btn-lg gradient-custom-4 text-body">Delete Product</button>
                                 </div>
-
+                                <div class="list-group mt-3">
+                                    <a class="list-group-item list-group-item-action active">Products</a>
+                                    @if(Model.Products.Any()==false)
+                                    {
+                                        <a class="list-group-item list-group-item-action">No Products Available</a>
+                                    }
+                                    else
+                                    {
+                                        foreach (var product in Model.Products)
+                                        {
+                                            <a class="list-group-item list-group-item-action">@product.Name - @product.Category.Name</a>
+                                        }
+                                    }
+                                </div>
 
                             </form>
                         </div>

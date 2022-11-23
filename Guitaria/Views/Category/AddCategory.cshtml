@@ -9,11 +9,11 @@
                                 <h2 class="text-uppercase text-center mb-5">Create a Category</h2>
 
                                 @if (TempData["Error"] != null)
-                            {
-                                    <div class="alert alert-danger">
+                                {
+                                    <div class="alert alert-danger mt-3">
                                         <strong>Error! </strong> @TempData["Error"]
                                     </div>
-                            }
+                                }
                                 <form id="categoryCreation" method="post">
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     <div class="form-outline mb-4">
@@ -33,9 +33,16 @@
                                 </form>
                                 <div class="list-group mt-3">
                                     <a class="list-group-item list-group-item-action active">Categories</a>
-                                @foreach(var category in Model.Categories)
+                                @if (Model.Categories.Any() == false)
                                 {
-                                    <a class="list-group-item list-group-item-action">@category.Name</a>
+                                    <a class="list-group-item list-group-item-action">No Categories Available</a>
+                                }
+                                else
+                                {
+                                    foreach (var category in Model.Categories)
+                                    {
+                                        <a class="list-group-item list-group-item-action">@category.Name - @category.Products.Count() products</a>
+                                    }
                                 }
                                 </div>
                             </div>

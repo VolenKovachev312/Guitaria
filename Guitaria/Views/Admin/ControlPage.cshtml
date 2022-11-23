@@ -1,0 +1,56 @@
+﻿<center><h1>Admin Page</h1></center>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <center>
+                <h2>Category Control</h2>
+                <hr style="width: 16rem" />
+                <div style="display:grid; gap: 1rem">
+                    <form asp-action="AddCategory" asp-controller="Category" method="get">
+                        <button class="btn btn-success">
+                            Add Category
+                        </button>
+                    </form>
+                    <form asp-action="RemoveCategory" asp-controller="Category" method="get">
+                        <button class="btn btn-danger">
+                            Remove Category
+                        </button>
+                    </form>
+                </div>
+
+                <h2 class="mt-5">General Control</h2>
+                <hr style="width:15rem" />
+                <div style="display:grid; gap: 1rem">
+                    <form asp-action="Create" asp-controller="Admin" method="get">
+                        <button class="btn btn-success">
+                            Add Role
+                        </button>
+                    </form>
+                </div>
+            </center>
+           
+            
+        </div>
+        <div class="col">
+            <center>
+                <h2>Product Control</h2>
+                <hr style="width: 21rem" />
+                <div style="display:grid; gap: 1rem">
+                    <form asp-action="AddProduct" asp-controller="Product" method="get">
+                        <button class="btn btn-success">
+                            Add Product
+                        </button>
+                    </form>
+                    <form asp-action="RemoveProduct" asp-controller="Product" method="get">
+                        <button class="btn btn-danger">
+                            Remove Product
+                        </button>
+                    </form>
+                </div>
+            </center>
+            
+        </div>
+    </div>
+</div>
+

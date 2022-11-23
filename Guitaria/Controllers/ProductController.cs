@@ -38,7 +38,6 @@ namespace Guitaria.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddProduct(CreateProductViewModel model)
         {
             if(!ModelState.IsValid)
@@ -59,17 +58,20 @@ namespace Guitaria.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "Administrator")]
-        public IActionResult RemoveProduct()
+        public async Task<IActionResult> RemoveProduct()
         {
-            RemoveProductViewModel model = new RemoveProductViewModel();
+            RemoveProductViewModel model = new RemoveProductViewModel()
+            {
+                Products = await productService.LoadProductsAsync()
+            };
             return View(model);
         }
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveProduct(RemoveProductViewModel model)
         {
+            model.Products = await productService.LoadProductsAsync();
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -83,7 +85,7 @@ namespace Guitaria.Controllers
                 ModelState.AddModelError("", e.Message);
                 return View(model);
             }
-
+            model.Products = await productService.LoadProductsAsync();
             return View(model);
         }
 
@@ -101,7 +103,6 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProductViewModel model, string productName)
         {
             if (!ModelState.IsValid)

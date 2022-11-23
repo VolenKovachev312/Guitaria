@@ -103,6 +103,11 @@ namespace Guitaria.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Product>> LoadProductsAsync()
+        {
+            return await context.Products.Include(p=>p.Category).ToListAsync();
+        }
+
 
 
 

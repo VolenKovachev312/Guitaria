@@ -15,6 +15,10 @@ namespace Guitaria.Controllers
             roleManager = _roleManager;
         }
 
+        public IActionResult ControlPage()
+        {
+            return View();
+        }
         [HttpGet]
         public  IActionResult Create()
         {

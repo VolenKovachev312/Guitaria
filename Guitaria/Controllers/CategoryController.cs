@@ -36,7 +36,6 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCategory(CreateCategoryViewModel model)
         {
             model.Categories = await categoryService.LoadCategoriesAsync();
@@ -72,7 +71,6 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveCategory(RemoveCategoryViewModel? model)
         {
             model.Categories = await categoryService.LoadCategoriesAsync();
@@ -109,7 +107,6 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CategoryViewModel model, string categoryName)
         {
             if(!ModelState.IsValid)

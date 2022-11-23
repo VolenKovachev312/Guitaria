@@ -53,7 +53,7 @@ namespace Guitaria.Services
             var httpContext = _httpContextAccessor.HttpContext;
             var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
 
-            Category? tempCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == model.Name);
+            Category? tempCategory = await context.Categories.Include(c=>c.Products).FirstOrDefaultAsync(c => c.Name == model.Name);
             if (tempCategory == null)
             {
                 tempData["Error"] = "Category does not exist.";
