@@ -1,0 +1,42 @@
+﻿@model ProductViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 36rem; margin-top: 25px;">
+                <img class="card-img-top" style="width: 100%; height: 36rem; margin-top:15px;" src="@Model.ImageUrl" alt="Card image cap">
+            </div>
+            <div style=" margin-top: 1rem; width:36rem">
+
+                <font size="+3" style="font-family: 'Courier New', monospace;">
+                    <center><strong>DESCRIPTION </strong></center>
+                </font>
+                    <hr />
+                <font size ="+1" style="font-family: 'Courier New', monospace;">
+                    <p>
+                        @Model.Description
+                    </p>
+                </font>
+            </div>
+        </div>
+        <div class="col" style="width: 36rem; margin-top: 25px;">
+            <div>
+                <center><font size="+5" style="font-family: 'Courier New', monospace;">@Model.Name</font></center>
+                <hr />
+            </div>
+            <center>
+                <div class="card" style="width: 36rem; margin-top:25px;">
+                    <center style="margin-top: 3rem; margin-bottom: 3rem">
+                        <font size="+3" style="font-family:'Rockwell', serif;">
+                            <p>
+                                @Model.Price $
+                            </p>
+                        </font>
+                        <button type="button" class="btn btn-success">Add To Shopping Cart</button>
+                    </center>
+                </div>
+            </center>
+        </div>
+    </div>
+</div>
+

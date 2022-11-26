@@ -19,5 +19,6 @@ namespace Guitaria.Contracts
         Task EditProductAsync(ProductViewModel model, string productName);
 
         Task<IEnumerable<Product>> LoadProductsAsync();
+
     }
 }

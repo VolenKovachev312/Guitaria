@@ -23,7 +23,12 @@ namespace Guitaria.Controllers
             return View(models);
         }
 
-        
+        public async Task<IActionResult> ViewProduct(string productName)
+        {
+            ProductViewModel model = await productService.GetProductAsync(productName);
+
+            return View(model);
+        }
 
         
         [HttpGet]
@@ -47,7 +52,6 @@ namespace Guitaria.Controllers
             try
             {
                 await productService.AddProductAsync(model);
-                //Redirect to Category with item
             }
             catch (Exception e)
             {
@@ -112,77 +116,7 @@ namespace Guitaria.Controllers
             await productService.EditProductAsync(model, productName);
             return RedirectToAction("All", "Product");
         }
-        //[HttpGet]
-        //public async Task<IActionResult> All()
-        //{
-        //    var model = await movieService.GetAllAsync();
-
-        //    return View(model);
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> Add()
-        //{
-        //    var model = new AddMovieViewModel()
-        //    {
-        //        Genres = await movieService.GetGenresAsync()
-        //    };
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Add(AddMovieViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-
-        //    try
-        //    {
-        //        await movieService.AddMovieAsync(model);
-
-        //        return RedirectToAction(nameof(All));
-        //    }
-        //    catch (Exception)
-        //    {
-        //        ModelState.AddModelError("", "Something went wrong");
-
-        //        return View(model);
-        //    }
-        //}
-
-        //public async Task<IActionResult> AddToCollection(int movieId)
-        //{
-        //    try
-        //    {
-        //        var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        //        await movieService.AddMovieToCollectionAsync(movieId, userId);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-
-        //    return RedirectToAction(nameof(All));
-        //}
-
-        //public async Task<IActionResult> Watched()
-        //{
-        //    var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        //    var model = await movieService.GetWatchedAsync(userId);
-
-        //    return View("Mine", model);
-        //}
-
-        //public async Task<IActionResult> RemoveFromCollection(int movieId)
-        //{
-        //    var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        //    await movieService.RemoveMovieFromCollectionAsync(movieId, userId);
-
-        //    return RedirectToAction(nameof(Watched));
-        //}
+       
 
     }
 }
