@@ -47,5 +47,5 @@
         cursor: pointer;
     }
 .foreground-div{
-    z-index: 999;
+    z-index: 1;
 }

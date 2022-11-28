@@ -69,7 +69,7 @@ namespace Guitaria.Services
         }
         public async Task<IEnumerable<Category>> LoadCategoriesAsync()
         {
-            return await context.Categories.ToListAsync();
+            return await context.Categories.Include(c=>c.Products).ToListAsync();
         }
 
         public async Task<CategoryViewModel> GetCategoryAsync(string categoryName)

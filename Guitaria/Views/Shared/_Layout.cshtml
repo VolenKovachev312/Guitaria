@@ -13,10 +13,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
  </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
-            <div class="container-fluid ">
+<body style="background-color:beige">
+    <header >
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow" >
+            <div class="container-fluid" style="background-color:beige">
                 <a class="" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/favicon/GuitariaLogo.png" width="210px" height="54px"/></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -26,11 +26,12 @@
                         <input class="form-control" type="search" placeholder="Search">
                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>*@
-                <ul class="navbar-nav flex-grow-1">
+                <ul class="navbar-nav flex-grow-1" style="margin-left: 2rem; gap: 2rem;">
                     
                     <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="All">Categories</a>
+                        <b><font size="+1"> <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="All"><img src="https://cdn-icons-png.flaticon.com/512/82/82122.png" style="width:2rem;height:2rem;" /> Categories</a></font></b>
                     </li>
+                    
                 </ul>
                 @*<div class="search">
                     <form action="">
@@ -48,7 +49,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" style="height: 100%;min-height:100vh; background-color: lightgray">
         <main role="main" class="pb-3">
             @RenderBody()
             

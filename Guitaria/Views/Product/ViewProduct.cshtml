@@ -1,8 +1,15 @@
-﻿@model ProductViewModel
+﻿
+@model ProductViewModel
 
 <div class="container">
     <div class="row">
         <div class="col">
+            @if (TempData["CartProduct"] != null)
+            {
+                <div class="alert alert-success mt-2">
+                    <strong>Success! </strong> @TempData["CartProduct"]
+                </div>
+            }
             <div class="card" style="width: 36rem; margin-top: 25px;">
                 <img class="card-img-top" style="width: 100%; height: 36rem; margin-top:15px;" src="@Model.ImageUrl" alt="Card image cap">
             </div>
@@ -32,11 +39,17 @@
                                 @Model.Price $
                             </p>
                         </font>
-                        <button type="button" class="btn btn-success">Add To Shopping Cart</button>
+                        <form asp-action="AddToCart" asp-controller="Product">
+                            <button name="productName" value="@Model.Name" class="btn btn-success">Add To Shopping Cart</button>
+                        </form>
                     </center>
                 </div>
             </center>
         </div>
     </div>
 </div>
-
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

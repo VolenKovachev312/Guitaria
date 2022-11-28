@@ -1,8 +1,11 @@
 ﻿using Guitaria.Contracts;
+using Guitaria.Data.Models;
 using Guitaria.Models.CategoryFolder;
 using Guitaria.Models.Product;
 using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,14 +14,36 @@ namespace Guitaria.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService productService;
+        private readonly UserManager<User> userManager;
 
-        public ProductController(IProductService _productService)
+        public ProductController(IProductService _productService,UserManager<User> _userManager)
         {
             productService = _productService;
+            userManager=_userManager;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(string productName)
+        {
+            try
+            {
+                var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
+                await productService.AddProductToCartAsync(userId, productName);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Unexpected Error.");
+            }
+            TempData["CartProduct"] = "Successfully added product to shopping cart!";
+            return RedirectToAction("ViewProduct", new {productName=productName});
         }
 
         public async Task<IActionResult> All(string categoryName)
         {
+            if(string.IsNullOrEmpty(categoryName))
+            {
+                return RedirectToAction("All","Category");
+            }
             var models = await productService.GetAllAsync(categoryName);
             return View(models);
         }

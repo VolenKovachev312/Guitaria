@@ -21,6 +21,27 @@ namespace Guitaria.Services
             _httpContextAccessor = httpContextAccessor;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
         }
+        public async Task AddProductToCartAsync(string userId, string productName)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
+
+            var user = await context.Users.Include(u=>u.ShoppingCart).ThenInclude(sc=>sc.Products).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+            if(user == null)
+            {
+                tempData["Error"] = "User not logged in.";
+                return;
+            }
+            var product= await context.Products.FirstOrDefaultAsync(p => p.Name == productName);
+            if(product==null)
+            {
+                tempData["Error"] = "Invalid product.";
+                return;
+            }
+            user.ShoppingCart.Products.Add(product);
+            await context.SaveChangesAsync();
+            tempData["Cart"] = "Successfully added to shopping cart!";
+        }
 
         public async Task<IEnumerable<Category>> LoadCategoriesAsync()
         {
@@ -107,6 +128,8 @@ namespace Guitaria.Services
         {
             return await context.Products.Include(p=>p.Category).ToListAsync();
         }
+
+        
 
 
 
