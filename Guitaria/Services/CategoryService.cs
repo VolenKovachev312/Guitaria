@@ -1,7 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data;
 using Guitaria.Data.Models;
-using Guitaria.Models.CategoryFolder;
+using Guitaria.Models.Category;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
@@ -81,7 +81,7 @@ namespace Guitaria.Services
             {
                 tempData["Error"] = "Category does not exist.";
             }
-            CategoryViewModel model = new CategoryViewModel()
+            CategoryViewModel model = new  CategoryViewModel()
             {
                 Name = tempCategory.Name,
                 ImageUrl = tempCategory.ImageUrl

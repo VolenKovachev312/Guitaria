@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Guitaria.Data.Constants.ConstantValues.Category;
-namespace Guitaria.Models.CategoryFolder
+
+namespace Guitaria.Models.Category
 {
     public class CategoryViewModel
     {

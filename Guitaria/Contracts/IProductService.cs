@@ -1,5 +1,5 @@
 ﻿using Guitaria.Data.Models;
-using Guitaria.Models.CategoryFolder;
+using Guitaria.Models.Category;
 using Guitaria.Models.Product;
 namespace Guitaria.Contracts
 {

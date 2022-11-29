@@ -28,7 +28,7 @@ namespace Guitaria.Models.Product
         [Required]
         public Guid CategoryId { get; set; }
 
-        public IEnumerable<Category> Categories = new List<Category>();
+        public IEnumerable<Data.Models.Category> Categories = new List<Data.Models.Category>();
 
     }
 }

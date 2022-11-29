@@ -8,7 +8,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ControlPage"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width: 2rem; height: 2rem;"></a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="ShowCart"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width: 2rem; height: 2rem;"></a>
         </li>
         @if (User?.Identity?.IsAuthenticated ?? false && User.IsInRole("Administrator"))
         {

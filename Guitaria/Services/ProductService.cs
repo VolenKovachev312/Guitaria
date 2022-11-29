@@ -1,7 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data;
 using Guitaria.Data.Models;
-using Guitaria.Models.CategoryFolder;
+using Guitaria.Models.Category;
 using Guitaria.Models.Product;
 using Humanizer.Localisation;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -38,9 +38,16 @@ namespace Guitaria.Services
                 tempData["Error"] = "Invalid product.";
                 return;
             }
-            user.ShoppingCart.Products.Add(product);
+            if(user.ShoppingCart.Products.Contains(product))
+            {
+                user.ShoppingCart.Products.FirstOrDefault(p => p.Id == product.Id).Quantity++;
+            }
+            else
+            {
+                user.ShoppingCart.Products.Add(product);
+                user.ShoppingCart.Products.FirstOrDefault(p => p.Id == product.Id).Quantity++;
+            }
             await context.SaveChangesAsync();
-            tempData["Cart"] = "Successfully added to shopping cart!";
         }
 
         public async Task<IEnumerable<Category>> LoadCategoriesAsync()

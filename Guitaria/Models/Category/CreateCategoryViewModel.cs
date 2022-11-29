@@ -1,8 +1,7 @@
-﻿using Guitaria.Data.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using static Guitaria.Data.Constants.ConstantValues.Category;
 
-namespace Guitaria.Models.CategoryFolder
+namespace Guitaria.Models.Category
 {
     public class CreateCategoryViewModel
     {
@@ -13,6 +12,6 @@ namespace Guitaria.Models.CategoryFolder
         [Required]
         [Url]
         public string ImageUrl { get; set; }
-        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public IEnumerable<Data.Models.Category> Categories { get; set; } = new List<Data.Models.Category>();
     }
 }
