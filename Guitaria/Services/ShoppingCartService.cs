@@ -34,6 +34,14 @@ namespace Guitaria.Services
                
         }
 
+        public async Task<ICollection<Product>> LoadProductsCheckoutAsync(string userId)
+        {
+            var user = await context.Users.Include(u => u.ShoppingCart).ThenInclude(sc => sc.Products).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+            var shoppingCart = user.ShoppingCart;
+
+            return shoppingCart.Products.ToList();
+        }
+
         public async Task RemoveProductAsync(string userId, Guid productId)
         {
             var user = await context.Users.Include(u=>u.ShoppingCart).ThenInclude(sc=>sc.Products).FirstOrDefaultAsync(u => u.Id.ToString() == userId);

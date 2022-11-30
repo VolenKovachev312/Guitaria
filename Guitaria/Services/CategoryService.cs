@@ -12,14 +12,16 @@ namespace Guitaria.Services
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
-
+        private HttpContext? httpContext;
+        private ITempDataDictionary tempData;
         public CategoryService(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataDictionaryFactory)
         {
             context = _context;
             _httpContextAccessor = httpContextAccessor;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
+            httpContext = _httpContextAccessor.HttpContext;
+            tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
         }
-
         public async Task<IEnumerable<CategoryViewModel>> GetAllAsync()
         {
             var entities=await context.Categories.ToListAsync();
@@ -32,8 +34,6 @@ namespace Guitaria.Services
         }
         public async Task AddCategoryAsync(CreateCategoryViewModel model)
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
             var entity = new Category()
             {
                 Id = Guid.NewGuid(),
@@ -50,8 +50,6 @@ namespace Guitaria.Services
         }
         public async Task RemoveCategoryAsync(RemoveCategoryViewModel model)
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
 
             Category? tempCategory = await context.Categories.Include(c=>c.Products).FirstOrDefaultAsync(c => c.Name == model.Name);
             if (tempCategory == null)
@@ -74,8 +72,6 @@ namespace Guitaria.Services
 
         public async Task<CategoryViewModel> GetCategoryAsync(string categoryName)
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
             Category? tempCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName);
             if (tempCategory == null)
             {

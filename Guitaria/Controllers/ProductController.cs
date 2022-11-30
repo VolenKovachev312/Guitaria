@@ -25,17 +25,17 @@ namespace Guitaria.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(string productName)
         {
-            try
-            {
                 var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
+                if(userId == null)
+                {
+                TempData["Error"] = "User not logged in.";
+                return RedirectToAction("ViewProduct", new { productName = productName });
+
+                }
                 await productService.AddProductToCartAsync(userId, productName);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "Unexpected Error.");
-            }
-            TempData["CartProduct"] = "Successfully added product to shopping cart!";
-            return RedirectToAction("ViewProduct", new {productName=productName});
+                TempData["CartProduct"] = "Successfully added product to shopping cart!";
+
+            return RedirectToAction("ViewProduct", new { productName = productName });
         }
 
         public async Task<IActionResult> All(string categoryName)

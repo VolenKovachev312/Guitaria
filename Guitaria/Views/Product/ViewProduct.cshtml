@@ -10,6 +10,12 @@
                     <strong>Success! </strong> @TempData["CartProduct"]
                 </div>
             }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger mt-2">
+                    <strong>Error! </strong> @TempData["Error"]
+                </div>
+            }
             <div class="card" style="width: 36rem; margin-top: 25px;">
                 <img class="card-img-top" style="width: 100%; height: 36rem; margin-top:15px;" src="@Model.ImageUrl" alt="Card image cap">
             </div>
@@ -19,11 +25,13 @@
                     <center><strong>DESCRIPTION </strong></center>
                 </font>
                     <hr />
-                <font size ="+1" style="font-family: 'Courier New', monospace;">
-                    <p>
-                        @Model.Description
-                    </p>
-                </font>
+                <div style="overflow-wrap: break-word;">
+                    <font size="+1" style="font-family: 'Courier New', monospace;">
+                        <p>
+                            @Model.Description
+                        </p>
+                    </font>
+                 </div>
             </div>
         </div>
         <div class="col" style="width: 36rem; margin-top: 25px;">

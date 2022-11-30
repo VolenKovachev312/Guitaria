@@ -14,17 +14,19 @@ namespace Guitaria.Services
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
-        
+        private HttpContext? httpContext;
+        private ITempDataDictionary tempData;
+
         public ProductService(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataDictionaryFactory)
         {
             context = _context;
             _httpContextAccessor = httpContextAccessor;
             _tempDataDictionaryFactory = tempDataDictionaryFactory;
+            httpContext = _httpContextAccessor.HttpContext;
+            tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
         }
         public async Task AddProductToCartAsync(string userId, string productName)
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
 
             var user = await context.Users.Include(u=>u.ShoppingCart).ThenInclude(sc=>sc.Products).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
             if(user == null)
@@ -71,8 +73,7 @@ namespace Guitaria.Services
         }
         public async Task RemoveProductAsync(RemoveProductViewModel model)
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
+           
             Product? product = await context.Products.FirstOrDefaultAsync(c => c.Name == model.Name);
             if (product == null)
             {

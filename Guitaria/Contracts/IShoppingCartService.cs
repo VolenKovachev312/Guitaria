@@ -8,7 +8,8 @@ namespace Guitaria.Contracts
         Task<Dictionary<Product, int>> LoadProductsAsync(string userId);
 
         Task RemoveProductAsync(string userId,Guid productId);
-
         Task ClearCartAsync(string userId);
+
+        Task<ICollection<Product>> LoadProductsCheckoutAsync(string userId);
     }
 }

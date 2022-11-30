@@ -15,6 +15,39 @@ namespace Guitaria.Controllers
         {
             cartService = _cartService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            var userId= User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var model = new CheckoutViewModel()
+            {
+                Products=await cartService.LoadProductsCheckoutAsync(userId)
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckoutViewModel model)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            model.Products = await cartService.LoadProductsCheckoutAsync(userId);
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Fill out the whole form!");
+                return View(model);
+            }
+            if(model.Products.Count==0)
+            {
+                ModelState.AddModelError("", "Shopping cart is empty!");
+                return View(model);
+            }
+            TempData["Checkout"] = "Order has been confirmed!";
+            await cartService.ClearCartAsync(userId);
+            return RedirectToAction("Checkout");
+        }
+
         public async Task<IActionResult> ShowCart()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;

@@ -55,9 +55,14 @@
             TOTAL PRICE: @totalPrice$
         </p></font>
     <div style="display: inline-block;">
-        <button class="btn-success">
-            <font size="+2">Checkout</font>
-        </button> 
+        
+            <button class="btn btn-check">
+                <form asp-action="Checkout" asp-controller="ShoppingCart">
+                    <button class="btn-success">
+                        <font size="+2">Checkout</font>
+                    </button> 
+                </form>
+            </button>
         <button class="btn btn-check">
                 <form asp-action="ClearCart" asp-controller="ShoppingCart">
                     <button class="btn-danger">
