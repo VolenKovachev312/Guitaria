@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Guitaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221128190740_shopcart-enumerable-products")]
-    partial class shopcartenumerableproducts
+    [Migration("20221203182202_removeForeignKeysForShoppingCartAndHistory")]
+    partial class removeForeignKeysForShoppingCartAndHistory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -339,13 +339,11 @@ namespace Guitaria.Migrations
 
             modelBuilder.Entity("Guitaria.Data.Models.PurchaseHistory", b =>
                 {
-                    b.HasOne("Guitaria.Data.Models.User", "User")
+                    b.HasOne("Guitaria.Data.Models.User", null)
                         .WithOne("PurchaseHistory")
                         .HasForeignKey("Guitaria.Data.Models.PurchaseHistory", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.ShoppingCart", b =>
@@ -354,13 +352,11 @@ namespace Guitaria.Migrations
                         .WithMany("PurchasedProducts")
                         .HasForeignKey("PurchaseHistoryId");
 
-                    b.HasOne("Guitaria.Data.Models.User", "User")
+                    b.HasOne("Guitaria.Data.Models.User", null)
                         .WithOne("ShoppingCart")
                         .HasForeignKey("Guitaria.Data.Models.ShoppingCart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

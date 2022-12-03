@@ -8,9 +8,8 @@ namespace Guitaria.Data.Models
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        [ForeignKey(nameof(User))]
+        [Required]
         public Guid UserId { get; set; }
-        public virtual User User { get; set; }
 
         public ICollection<Product> Products { get; set; }
         = new List<Product>();

@@ -31,6 +31,7 @@ public class StartUp
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+        builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/User/Login");
 
         var app = builder.Build();
 

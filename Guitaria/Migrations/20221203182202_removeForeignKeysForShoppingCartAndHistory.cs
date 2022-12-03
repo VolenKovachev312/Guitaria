@@ -4,7 +4,7 @@
 
 namespace Guitaria.Migrations
 {
-    public partial class shopcartenumerableproducts : Migration
+    public partial class removeForeignKeysForShoppingCartAndHistory : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

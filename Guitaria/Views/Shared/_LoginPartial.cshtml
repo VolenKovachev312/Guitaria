@@ -5,31 +5,49 @@
 
 <ul class="navbar-nav" style="gap:1rem; margin-right:2rem;">
 
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="ShowCart"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width: 2rem; height: 2rem;"></a>
-        </li>
+    
         @if (User?.Identity?.IsAuthenticated ?? false && User.IsInRole("Administrator"))
         {
             <li class="nav-item">
-                <b><font size="+1"><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ControlPage"><img src="https://cdn-icons-png.flaticon.com/512/78/78948.png" style="width: 2rem; height: 2rem;">Control Page</a></font></b>
+            <b><font size="+1"><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ControlPage">Control Page <img src="https://cdn-icons-png.flaticon.com/512/78/78948.png" style="width: 2.5rem; height: 2.5rem;"></a></font></b>
             </li>
         }
         <li class="nav-item">
-            <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-id="@UserManager.GetUserId(User)">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width: 2.5rem; height: 2.5rem;">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="ShowCart">Show Cart</a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Checkout">Checkout</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" style="width: 2.5rem; height: 2.5rem;">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    @if(!SignInManager.IsSignedIn(User))
+                    {
+                    <li><a class="nav-link text-dark" asp-controller="User" asp-action="Register">Register</a></li>
+                    <li><a class="nav-link text-dark" asp-controller="User" asp-action="Login">Login</a></li>
+                    }
+                    else
+                    {
+                        <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-id="@UserManager.GetUserId(User)">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        </form>
+                    }
+                    
+                </ul>
+            </div>
         </li>
         
-    }
-    else
-    {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="User" asp-action="Register">Register</a>
+            
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="User" asp-action="Login">Login</a>
-        </li>
-    }
+        
+    
 </ul>
