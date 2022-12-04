@@ -6,7 +6,7 @@
 <ul class="navbar-nav" style="gap:1rem; margin-right:2rem;">
 
     
-        @if (User?.Identity?.IsAuthenticated ?? false && User.IsInRole("Administrator"))
+        @if (User.IsInRole("Administrator"))
         {
             <li class="nav-item">
             <b><font size="+1"><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ControlPage">Control Page <img src="https://cdn-icons-png.flaticon.com/512/78/78948.png" style="width: 2.5rem; height: 2.5rem;"></a></font></b>

@@ -34,6 +34,9 @@ namespace Guitaria.Data.Models
 
         public virtual Category Category { get; set; }
 
+        public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts { get; set; }
+
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
     }
 }

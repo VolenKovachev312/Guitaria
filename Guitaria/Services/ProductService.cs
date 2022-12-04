@@ -28,26 +28,31 @@ namespace Guitaria.Services
         public async Task AddProductToCartAsync(string userId, string productName)
         {
 
-            var user = await context.Users.Include(u=>u.ShoppingCart).ThenInclude(sc=>sc.Products).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
-            if(user == null)
+            var user = await context.Users.Include(u => u.ShoppingCart).ThenInclude(sc => sc.ShoppingCartProducts).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+            if (user == null)
             {
-                tempData["Error"] = "User not logged in.";
+                tempData["ViewProductError"] = "User not logged in.";
                 return;
             }
-            var product= await context.Products.FirstOrDefaultAsync(p => p.Name == productName);
-            if(product==null)
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Name == productName);
+            if (product == null)
             {
-                tempData["Error"] = "Invalid product.";
+                tempData["ViewProductError"] = "Invalid product.";
                 return;
             }
-            if(user.ShoppingCart.Products.Contains(product))
+            var userProducts = user.ShoppingCart.ShoppingCartProducts.Select(p => p.Product).ToList();
+            if (userProducts.Contains(product))
             {
-                user.ShoppingCart.Products.FirstOrDefault(p => p.Id == product.Id).Quantity++;
+                tempData["ViewProductError"] = "Item is already in cart.";
             }
             else
             {
-                user.ShoppingCart.Products.Add(product);
-                user.ShoppingCart.Products.FirstOrDefault(p => p.Id == product.Id).Quantity++;
+                tempData["ViewProductSuccess"] = "Successfully added product to shopping cart!";
+                user.ShoppingCart.ShoppingCartProducts.Add(new ShoppingCartProduct()
+                {
+                    ShoppingCartId = user.ShoppingCart.Id,
+                    ProductId = product.Id
+                }) ;
             }
             await context.SaveChangesAsync();
         }

@@ -16,14 +16,15 @@ namespace Guitaria.Data
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<PurchaseHistory> PurchaseHistories { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            User admin = new User()
-            {
-                Email = "admin@gmail.com",
-                UserName = "Administrator"
-            };
-            
+            builder.Entity<OrderProduct>()
+                .HasKey(k => new { k.OrderId, k.ProductId });
+            builder.Entity<ShoppingCartProduct>()
+                .HasKey(k => new { k.ShoppingCartId, k.ProductId });
             base.OnModelCreating(builder);
         }
         

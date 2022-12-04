@@ -33,7 +33,6 @@ namespace Guitaria.Controllers
 
                 }
                 await productService.AddProductToCartAsync(userId, productName);
-                TempData["CartProduct"] = "Successfully added product to shopping cart!";
 
             return RedirectToAction("ViewProduct", new { productName = productName });
         }

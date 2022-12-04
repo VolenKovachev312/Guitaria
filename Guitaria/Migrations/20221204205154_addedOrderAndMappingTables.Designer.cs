@@ -4,6 +4,7 @@ using Guitaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Guitaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221204205154_addedOrderAndMappingTables")]
+    partial class addedOrderAndMappingTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +60,7 @@ namespace Guitaria.Migrations
 
                     b.HasIndex("PurchaseHistoryId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.OrderProduct", b =>
@@ -132,10 +134,15 @@ namespace Guitaria.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PurchaseHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PurchaseHistoryId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -362,7 +369,7 @@ namespace Guitaria.Migrations
             modelBuilder.Entity("Guitaria.Data.Models.Order", b =>
                 {
                     b.HasOne("Guitaria.Data.Models.PurchaseHistory", "PurchaseHistory")
-                        .WithMany("PurchasedProducts")
+                        .WithMany()
                         .HasForeignKey("PurchaseHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -411,11 +418,19 @@ namespace Guitaria.Migrations
 
             modelBuilder.Entity("Guitaria.Data.Models.ShoppingCart", b =>
                 {
+                    b.HasOne("Guitaria.Data.Models.PurchaseHistory", "PurchaseHistory")
+                        .WithMany("PurchasedProducts")
+                        .HasForeignKey("PurchaseHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Guitaria.Data.Models.User", null)
                         .WithOne("ShoppingCart")
                         .HasForeignKey("Guitaria.Data.Models.ShoppingCart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PurchaseHistory");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.ShoppingCartProduct", b =>

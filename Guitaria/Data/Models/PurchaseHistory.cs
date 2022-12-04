@@ -11,8 +11,8 @@ namespace Guitaria.Data.Models
         [Required]
         public Guid UserId { get; set; }
 
-        public IEnumerable<ShoppingCart> PurchasedProducts { get; set; }
-            = new List<ShoppingCart>();
+        public ICollection<Order> PurchasedProducts { get; set; }
+        = new List<Order>();
 
     }
 }

@@ -4,16 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            @if (TempData["CartProduct"] != null)
+            @if (TempData["ViewProductSuccess"] != null)
             {
                 <div class="alert alert-success mt-2">
-                    <strong>Success! </strong> @TempData["CartProduct"]
+                    @TempData["ViewProductSuccess"]
                 </div>
             }
-            @if (TempData["Error"] != null)
+            @if (TempData["ViewProductError"] != null)
             {
                 <div class="alert alert-danger mt-2">
-                    <strong>Error! </strong> @TempData["Error"]
+                    @TempData["ViewProductError"]
                 </div>
             }
             <div class="card" style="width: 36rem; margin-top: 25px;">

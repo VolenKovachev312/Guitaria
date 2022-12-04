@@ -44,6 +44,7 @@ namespace Guitaria.Controllers
                 return View(model);
             }
             TempData["Checkout"] = "Order has been confirmed!";
+            await cartService.AddOrderToHistoryAsync(userId);
             await cartService.ClearCartAsync(userId);
             return RedirectToAction("Checkout");
         }

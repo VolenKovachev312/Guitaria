@@ -2,7 +2,7 @@
 {
     public class ShoppingCartViewModel
     {
-        public IDictionary<Data.Models.Product, int> Products { get; set; }=
-        new Dictionary<Data.Models.Product,int>();
+        public IEnumerable<Data.Models.Product> Products { get; set; }=
+        new List<Data.Models.Product>();
     }
 }
