@@ -1,7 +1,6 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data;
 using Guitaria.Data.Models;
-using Guitaria.Models.Cart;
 using Microsoft.EntityFrameworkCore;
 
 namespace Guitaria.Services
@@ -49,6 +48,12 @@ namespace Guitaria.Services
             var shoppingCart = user.ShoppingCart;
 
             return shoppingCart.ShoppingCartProducts.Select(p=>p.Product).ToList();
+        }
+
+        public async Task<IEnumerable<Order>> LoadPurchaseHistoryAsync(string userId)
+        {
+            var user = await context.Users.Include(u => u.PurchaseHistory).ThenInclude(sc => sc.PurchasedProducts).ThenInclude(sc => sc.OrderProducts).ThenInclude(p=>p.Product).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+            return user.PurchaseHistory.PurchasedProducts;
         }
 
         public async Task RemoveProductAsync(string userId, Guid productId)

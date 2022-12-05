@@ -16,6 +16,17 @@ namespace Guitaria.Controllers
             cartService = _cartService;
         }
 
+        public async Task<IActionResult> PurchaseHistory()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            PurchaseHistoryViewModel model = new PurchaseHistoryViewModel()
+            {
+                Orders = await cartService.LoadPurchaseHistoryAsync(userId)
+            };
+
+            return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {

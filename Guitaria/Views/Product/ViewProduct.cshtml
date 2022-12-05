@@ -16,15 +16,15 @@
                     @TempData["ViewProductError"]
                 </div>
             }
-            <div class="card" style="width: 36rem; margin-top: 25px;">
-                <img class="card-img-top" style="width: 36rem; height: 36rem; margin-top:15px; object-fit:cover" src="@Model.ImageUrl" alt="Card image cap">
+            <div class="card border-2" style="width: 36rem; margin-top: 25px;border-color:aquamarine">
+                <img class="card-img-top" style="width: 35rem; height: 35rem;object-fit:cover; margin-top:15px;" src="@Model.ImageUrl" alt="Card image cap">
             </div>
             <div style=" margin-top: 1rem; width:36rem">
 
                 <font size="+3" style="font-family: 'Courier New', monospace;">
                     <center><strong>DESCRIPTION </strong></center>
                 </font>
-                    <hr />
+                <hr style="height:2px; color:aquamarine"  />
                 <div style="overflow-wrap: break-word;">
                     <font size="+1" style="font-family: 'Courier New', monospace;">
                         <p>
@@ -37,10 +37,10 @@
         <div class="col" style="width: 36rem; margin-top: 25px;">
             <div>
                 <center><font size="+5" style="font-family: 'Courier New', monospace;">@Model.Name</font></center>
-                <hr />
+                <hr style="height:3px; color:aquamarine"  />
             </div>
             <center>
-                <div class="card" style="width: 36rem; margin-top:25px;">
+                <div class="card" style="width: 36rem; margin-top:25px; border-color:aquamarine">
                     <center style="margin-top: 3rem; margin-bottom: 3rem">
                         <font size="+3" style="font-family:'Rockwell', serif;">
                             <p>
@@ -57,7 +57,5 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+   
 }

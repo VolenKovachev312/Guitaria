@@ -21,7 +21,7 @@
                 <ul class="list-group gap-3 mt-3">
                     @foreach (var item in Model.Products)
                     {
-                        <li class="list-group-item d-flex align-items-center">
+                        <li class="list-group-item d-flex align-items-center border-2" style="border-color:aquamarine">
                             <div class="image-parent" style="width:12rem; height:12rem">
                                 <img style="width:12rem; height:12rem" src="@item.ImageUrl" alt="@item.Name">
                             </div>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <hr />
+    <hr style="height:4px;color:aquamarine"/>
     @if(Model.Products.Count()>0)
     {
         <center>

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Guitaria.Services;
 using Guitaria.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Guitaria.Infrastrcture;
 
 namespace Guitaria;
 public class StartUp
@@ -50,6 +51,7 @@ public class StartUp
             app.UseHsts();
         }
 
+        app.PrepareDatabase();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

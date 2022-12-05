@@ -4,37 +4,37 @@ namespace Guitaria.Models.Cart
 {
     public class CheckoutViewModel
     {
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string FullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string NameOnCard { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string CreditCardNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string ExpMonth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string State { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string Zip { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " ")]
         public string ExpYear { get; set; }
 
-        [Required]
+        [Required(ErrorMessage =" ")]
         public string CVV { get; set; }
 
         public ICollection<Data.Models.Product> Products { get; set; } = new List<Data.Models.Product>();

@@ -2,7 +2,6 @@
 {
     public class ShoppingCartViewModel
     {
-        public IEnumerable<Data.Models.Product> Products { get; set; }=
-        new List<Data.Models.Product>();
+        public IEnumerable<Data.Models.Product> Products { get; set; }
     }
 }

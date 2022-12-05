@@ -5,6 +5,7 @@ namespace Guitaria.Contracts
 {
     public interface IShoppingCartService
     {
+        Task<IEnumerable<Order>> LoadPurchaseHistoryAsync(string userId);
         Task<IEnumerable<Product>> LoadProductsAsync(string userId);
 
         Task RemoveProductAsync(string userId,Guid productId);

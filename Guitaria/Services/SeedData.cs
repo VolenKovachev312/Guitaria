@@ -1,6 +1,9 @@
 ﻿using Guitaria;
 using Guitaria.Data.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using static Guitaria.Data.Constants.ConstantValues.SeedData;
 namespace Guitaria.Services
 {
@@ -23,7 +26,7 @@ namespace Guitaria.Services
             }
                 
         }
-        public static async Task InitializeAccounts(IServiceProvider serviceProvider)
+        private static async Task InitializeAccounts(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
             await CreateRoleAsync(roleManager);
