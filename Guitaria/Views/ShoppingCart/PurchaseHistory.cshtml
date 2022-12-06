@@ -3,13 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12 col-sm-8 col-lg-12">
-            @*@if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success mt-3">
-                    <strong>Success! </strong> @TempData["Success"]
-                </div>
-            }*@
-            
+           
             @if (Model.Orders.Count() == 0)
             {
                 <h2 class="mt-3">No Orders Made!</h2>
@@ -20,7 +14,6 @@
                 <ul class="list-group gap-3 mt-3">
                     @foreach (var order in Model.Orders.OrderByDescending(d=>d.OrderDate))
                     {
-                        decimal totalPrice = 0;
                         var products = order.OrderProducts.Select(p => p.Product);
                         
                         <li class="list-group-item d-flex align-items-center gap-5 border-2" style="border-color:aquamarine">
@@ -30,26 +23,14 @@
                             <div class="" style="width: 15vw; overflow-wrap: break-word;">
                                 @foreach(var product in products)
                                 {
-                                    totalPrice += product.Price;
                                     <p style="margin-top:0.5rem">@product.Name</p>
                                     <hr style="color:aquamarine;height:2px"/>
                                 }
                             </div>
                             <div style="margin-left:20rem">
-                                Total Price: @totalPrice$
+                                Total Price: @order.FinalPrice$
                             </div>
-                            @*<div style="max-width:16rem">
-                                <font size="+2" style="font-family: 'Courier New', monospace; overflow-wrap: break-word;"><p>@item.Name</p></font>
-                            </div>
-                            <br>
-                            <font size="+2" style="font-family: 'Courier New', monospace;" class="col-7"><p>@item.Price$</p></font>
-                            <div class="" style="width:2rem; height:2rem">
-                                <form asp-action="RemoveFromCart" asp-controller="ShoppingCart" method="get">
-                                    <button class="btn" name="productId" value="@item.Id">
-                                        <img style="width:2rem; height:2rem" src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png">
-                                    </button>
-                                </form>
-                            </div>*@
+                           
                         </li>
                     }
                 </ul>

@@ -18,7 +18,8 @@ namespace Guitaria.Services
             var user = await context.Users.Include(u => u.PurchaseHistory).Include(u => u.ShoppingCart).ThenInclude(sc => sc.ShoppingCartProducts).ThenInclude(sc=>sc.Product).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
             var purchaseHistory = user.PurchaseHistory;
             var order = new Order();
-            await context.Database.ExecuteSqlInterpolatedAsync($"INSERT INTO [Orders](Id,PurchaseHistoryId,OrderDate) VALUES ({order.Id},{user.PurchaseHistory.Id},{DateTime.Now})");
+            var finalPrice = user.ShoppingCart.ShoppingCartProducts.Select(p => p.Product).Sum(p => p.Price);
+            await context.Database.ExecuteSqlInterpolatedAsync($"INSERT INTO [Orders](Id,PurchaseHistoryId,OrderDate,FinalPrice) VALUES ({order.Id},{user.PurchaseHistory.Id},{DateTime.Now},{finalPrice})");
             foreach (var product in user.ShoppingCart.ShoppingCartProducts)
             {
                 await context.Database.ExecuteSqlInterpolatedAsync($"INSERT INTO [OrderProduct](OrderId,ProductId) VALUES ({order.Id},{product.ProductId})");

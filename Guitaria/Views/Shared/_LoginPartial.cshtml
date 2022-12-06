@@ -18,9 +18,9 @@
                     <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width: 2.5rem; height: 2.5rem;">
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="ShowCart">Show Cart</a></li>
+                <li><center><a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="ShowCart">Show Cart</a></center></li>
                 <div class="dropdown-divider"></div>
-                    <li><a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Checkout">Checkout</a></li>
+                <li><center><a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Checkout">Checkout</a></center></li>
                 </ul>
             </div>
         </li>
@@ -32,16 +32,16 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                     @if(!SignInManager.IsSignedIn(User))
                     {
-                    <li><a class="nav-link text-dark" asp-controller="User" asp-action="Login">Login</a></li>
+                    <li><center><a class="nav-link text-dark" asp-controller="User" asp-action="Login">Login</a></center></li>
                     <div class="dropdown-divider"></div>
-                    <li><a class="nav-link text-dark" asp-controller="User" asp-action="Register">Register</a></li>
+                    <li><center><a class="nav-link text-dark" asp-controller="User" asp-action="Register">Register</a></center></li>
                     }
                     else
                     {
-                        <li><a class="nav-link text-dark" asp-controller="ShoppingCart" asp-action="PurchaseHistory">Purchase History</a></li>
+                    <li><center><a class="nav-link text-dark" asp-controller="ShoppingCart" asp-action="PurchaseHistory">Purchase History</a></center></li>
                             <div class="dropdown-divider"></div>
                         <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-id="@UserManager.GetUserId(User)">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        <center> <button type="submit" class="nav-link btn btn-link text-dark">Logout</button></center>
                         </form>
                     }
                     

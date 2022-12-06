@@ -86,7 +86,7 @@ blueborder{
                 @if (TempData["Checkout"] != null)
                 {
                     <div class="alert alert-success mt-3">
-                        <strong>Success! </strong> @TempData["Checkout"]
+                         @TempData["Checkout"]
                     </div>
                 }
                 <div class="row">
@@ -108,18 +108,11 @@ blueborder{
                             <label asp-for="@Model.City"><i class="fa fa-user"></i>City</label>
                         <input asp-for="@Model.City" type="text" placeholder="New York" class="form-control" style="border-color:aquamarine;" aria-required="true" />
                             <span asp-validation-for="City" class="text-danger"></span>
-                            <div class="row">
-                                <div class="col-50">
-                                    <label asp-for="@Model.State"><i class="fa fa-user"></i>City</label>
-                                    <input asp-for="@Model.State" type="text" placeholder="NY" class="form-control" style="border-color:aquamarine;"aria-required="true" />
-                                    <span asp-validation-for="State" class="text-danger"></span>
-                                </div>
-                                <div class="col-50">
+                            
                                     <label asp-for="@Model.Zip"><i class="fa fa-user"></i>Zip</label>
                                 <input asp-for="@Model.Zip" type="text" placeholder="5800" class="form-control" style="border-color:aquamarine;" aria-required="true" />
                                     <span asp-validation-for="Zip" class="text-danger"></span>
-                                </div>
-                            </div>
+                               
 
                         
                     </div>
@@ -141,7 +134,7 @@ blueborder{
                         <div class="row">
                             <div class="col-50">
                                 <label asp-for="@Model.ExpYear"><i class="fa fa-user"></i>Exp Year</label>
-                                <input asp-for="@Model.ExpYear" type="text" placeholder="2018" class="form-control" style="border-color:aquamarine;" aria-required="true" />
+                                <input asp-for="@Model.ExpYear" type="text" placeholder="@DateTime.Now.Year" class="form-control" style="border-color:aquamarine;" aria-required="true" />
                                 <span asp-validation-for="ExpYear" class="text-danger"></span>
                             </div>
                             <div class="col-50">

@@ -1,6 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data.Models;
 using Guitaria.Models.Category;
+using Guitaria.Models.Product;
 using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,6 @@ namespace Guitaria.Controllers
             }
             catch (ArgumentException ae)
             {
-                ModelState.AddModelError("", ae.Message);
                 return View(model);
             }
             model.Categories = await categoryService.LoadCategoriesAsync();
@@ -97,11 +97,17 @@ namespace Guitaria.Controllers
         [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> Edit(string categoryName)
         {
-            var model = await categoryService.GetCategoryAsync(categoryName);
-            if(model == null)
+            CategoryViewModel model = new CategoryViewModel();
+            try
             {
-                ModelState.AddModelError("", "Category doesn't exist");
+                model = await categoryService.GetCategoryAsync(categoryName);
+
             }
+            catch (Exception)
+            {
+                return RedirectToAction("All");
+            } 
+
             return View(model);
         }
 

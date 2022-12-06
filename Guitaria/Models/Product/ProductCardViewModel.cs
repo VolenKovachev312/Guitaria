@@ -14,6 +14,9 @@ namespace Guitaria.Models.Product
         [Required]
         public string ImageUrl { get; set; }
 
+        [Required]
+        public bool isAvailable { get; set; }
+
         IEnumerable<Data.Models.Category> Categories { get; set; }
     }
 }

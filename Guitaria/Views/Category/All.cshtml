@@ -1,35 +1,36 @@
 ﻿@model IEnumerable<CategoryViewModel>
 
-<div class="text-center row">
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">
-            <strong>Error! </strong> @TempData["Error"]
-        </div>
-    }
-    @foreach (var category in Model)
-    {
-        <div class="card border-2" style="width: 18rem; margin-top: 25px; margin-left: 15px;border-color:aquamarine;">
-            <form asp-action="All" asp-controller="Product" method="get" >
-                <button name="categoryName" value="@category.Name" class="btn">
-                    <img class="card-img-top" style="width: 100%; height: 18rem; margin-top:15px" src="@category.ImageUrl" alt="Card image cap">
-                </button>
-            </form>
-            <hr style="color: aquamarine; height:2px">
-                    <div class="card-body">
-                        <center><font size="+2"><p class="card-text">@category.Name.ToUpper()</p></font></center>
-                    </div>
-                
-            @if(User.IsInRole("Administrator"))
-            {
-                <form asp-action="Edit" asp-controller="Category" method="get">
-                <button name="categoryName" value="@category.Name" class="btn-dark mb-3">
-                    Edit
-                </button>
+    <div class="row gap-2">
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Error"]
+            </div>
+        }
+        @foreach (var category in Model)
+        {
+            <div class="card border-2" style="width: 18rem; margin-top: 25px; margin-left:15px;border-color:aquamarine;">
+                <form asp-action="All" asp-controller="Product" method="get">
+                    <button name="categoryName" value="@category.Name" class="btn">
+                        <img class="card-img-top" style="width: 100%; height: 18rem;object-fit:contain; margin-top:15px" src="@category.ImageUrl" alt="Card image cap">
+                    </button>
                 </form>
-            }
-        </div>
+                <hr style="color: aquamarine; height:2px">
+                <div class="card-body">
+                    <center><font size="+2"><p class="card-text">@category.Name.ToUpper()</p></font></center>
+                </div>
 
-    }
-</div>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <form asp-action="Edit" asp-controller="Category" method="get">
+                        <button name="categoryName" value="@category.Name" class="btn-dark mb-3">
+                            Edit
+                        </button>
+                    </form>
+                }
+            </div>
+
+        }
+    </div>
+
 

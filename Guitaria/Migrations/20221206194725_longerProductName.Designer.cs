@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Guitaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221108204853_Initial")]
-    partial class Initial
+    [Migration("20221206194725_longerProductName")]
+    partial class longerProductName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,10 +24,70 @@ namespace Guitaria.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Guitaria.Data.Models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Guitaria.Data.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("FinalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PurchaseHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseHistoryId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Guitaria.Data.Models.OrderProduct", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProduct");
+                });
+
             modelBuilder.Entity("Guitaria.Data.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -39,42 +99,22 @@ namespace Guitaria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("ProductTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ShoppingCartId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductTypeId");
-
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Guitaria.Data.Models.ProductType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.PurchaseHistory", b =>
@@ -100,20 +140,30 @@ namespace Guitaria.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PurchaseHistoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PurchaseHistoryId");
-
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("Guitaria.Data.Models.ShoppingCartProduct", b =>
+                {
+                    b.Property<Guid>("ShoppingCartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ShoppingCartId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ShoppingCartProduct");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.User", b =>
@@ -317,45 +367,82 @@ namespace Guitaria.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Guitaria.Data.Models.Product", b =>
+            modelBuilder.Entity("Guitaria.Data.Models.Order", b =>
                 {
-                    b.HasOne("Guitaria.Data.Models.ProductType", "ProductType")
-                        .WithMany("Products")
-                        .HasForeignKey("ProductTypeId")
+                    b.HasOne("Guitaria.Data.Models.PurchaseHistory", "PurchaseHistory")
+                        .WithMany("PurchasedProducts")
+                        .HasForeignKey("PurchaseHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Guitaria.Data.Models.ShoppingCart", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ShoppingCartId");
+                    b.Navigation("PurchaseHistory");
+                });
 
-                    b.Navigation("ProductType");
+            modelBuilder.Entity("Guitaria.Data.Models.OrderProduct", b =>
+                {
+                    b.HasOne("Guitaria.Data.Models.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guitaria.Data.Models.Product", "Product")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Guitaria.Data.Models.Product", b =>
+                {
+                    b.HasOne("Guitaria.Data.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.PurchaseHistory", b =>
                 {
-                    b.HasOne("Guitaria.Data.Models.User", "User")
+                    b.HasOne("Guitaria.Data.Models.User", null)
                         .WithOne("PurchaseHistory")
                         .HasForeignKey("Guitaria.Data.Models.PurchaseHistory", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("Guitaria.Data.Models.PurchaseHistory", null)
-                        .WithMany("PurchasedProducts")
-                        .HasForeignKey("PurchaseHistoryId");
-
-                    b.HasOne("Guitaria.Data.Models.User", "User")
+                    b.HasOne("Guitaria.Data.Models.User", null)
                         .WithOne("ShoppingCart")
                         .HasForeignKey("Guitaria.Data.Models.ShoppingCart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("User");
+            modelBuilder.Entity("Guitaria.Data.Models.ShoppingCartProduct", b =>
+                {
+                    b.HasOne("Guitaria.Data.Models.Product", "Product")
+                        .WithMany("ShoppingCartProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guitaria.Data.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany("ShoppingCartProducts")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -409,9 +496,21 @@ namespace Guitaria.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Guitaria.Data.Models.ProductType", b =>
+            modelBuilder.Entity("Guitaria.Data.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Guitaria.Data.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
+                });
+
+            modelBuilder.Entity("Guitaria.Data.Models.Product", b =>
+                {
+                    b.Navigation("OrderProducts");
+
+                    b.Navigation("ShoppingCartProducts");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.PurchaseHistory", b =>
@@ -421,7 +520,7 @@ namespace Guitaria.Migrations
 
             modelBuilder.Entity("Guitaria.Data.Models.ShoppingCart", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("ShoppingCartProducts");
                 });
 
             modelBuilder.Entity("Guitaria.Data.Models.User", b =>

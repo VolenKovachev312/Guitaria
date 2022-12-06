@@ -44,7 +44,7 @@ namespace Guitaria.Services
             if (context.Categories.Any(c => c.Name == model.Name))
             {
                 tempData["Error"] = "Category already exists.";
-                return;
+                throw new ArgumentException();
             }
             await context.Categories.AddAsync(entity);
             await context.SaveChangesAsync();

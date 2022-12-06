@@ -26,12 +26,7 @@ namespace Guitaria.Controllers
         public async Task<IActionResult> AddToCart(string productName)
         {
                 var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
-                if(userId == null)
-                {
-                TempData["Error"] = "User not logged in.";
-                return RedirectToAction("ViewProduct", new { productName = productName });
-
-                }
+                
                 await productService.AddProductToCartAsync(userId, productName);
 
             return RedirectToAction("ViewProduct", new { productName = productName });
@@ -121,11 +116,16 @@ namespace Guitaria.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(string productName)
         {
-            var model = await productService.GetProductAsync(productName);
-            if (model == null)
+            ProductViewModel model = new ProductViewModel();
+            try
             {
-                ModelState.AddModelError("", "Category doesn't exist");
+                 model = await productService.GetProductAsync(productName);
             }
+            catch(Exception)
+            {
+                return RedirectToAction("All");
+            }
+            
             return View(model);
         }
 
@@ -138,7 +138,7 @@ namespace Guitaria.Controllers
                 return View(model);
             }
             await productService.EditProductAsync(model, productName);
-            return RedirectToAction("All", "Product");
+            return RedirectToAction("All");
         }
        
 

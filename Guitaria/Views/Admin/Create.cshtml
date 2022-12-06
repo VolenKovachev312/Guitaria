@@ -4,7 +4,7 @@
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                    <div class="card" style="border-radius: 15px;">
+                    <div class="card border-2" style="border-radius: 15px;border-color:aquamarine">
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Create a role</h2>
 
@@ -12,7 +12,7 @@
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-outline mb-4">
                                     <label asp-for="@Model.RoleName">Role Name</label>
-                                    <input id="form3Example3cg" class="form-control form-control-lg" autocomplete="username" aria-required="true" asp-for="@Model.RoleName" />
+                                    <input id="form3Example3cg" class="form-control form-control-lg" autocomplete="username" aria-required="true" asp-for="@Model.RoleName" style="border-color:aquamarine" />
                                     <span asp-validation-for="@Model.RoleName" class="text-danger"></span>
                                 </div>
 

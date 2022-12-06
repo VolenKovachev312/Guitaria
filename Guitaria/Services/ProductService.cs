@@ -39,6 +39,11 @@ namespace Guitaria.Services
                 tempData["ViewProductError"] = "Invalid product.";
                 return;
             }
+            if(!product.IsAvailable)
+            {
+                tempData["ViewProductError"] = "Product is unavailable at the moment.";
+                return;
+            }
             var userProducts = user.ShoppingCart.ShoppingCartProducts.Select(p => p.Product).ToList();
             if (userProducts.Contains(product))
             {
@@ -84,7 +89,7 @@ namespace Guitaria.Services
                 tempData["Error"] = "Product does not exist.";
                 return;
             }
-            context.Products.Remove(product);
+            product.IsAvailable = false;
             await context.SaveChangesAsync();
         }
         public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync(string categoryName)
@@ -104,7 +109,8 @@ namespace Guitaria.Services
             {
                 Name=e.Name,
                 ImageUrl=e.ImageUrl,
-                Price=e.Price
+                Price=e.Price,
+                isAvailable=e.IsAvailable
             });
         }
 
@@ -114,7 +120,8 @@ namespace Guitaria.Services
             Product? tempProduct = await context.Products.FirstOrDefaultAsync(c => c.Name == productName);
             if (tempProduct == null)
             {
-                //REDIRECT TO PAGE DOES NOT EXIST
+                tempData["Error"] = "Product does not exist!";
+                throw new Exception();
             }
             ProductViewModel model = new ProductViewModel()
             {
@@ -133,6 +140,7 @@ namespace Guitaria.Services
             product.ImageUrl = model.ImageUrl;
             product.Description = model.Description;
             product.Price = model.Price;
+            product.IsAvailable = model.IsAvailable;
             await context.SaveChangesAsync();
         }
 

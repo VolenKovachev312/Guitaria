@@ -26,9 +26,6 @@ namespace Guitaria.Models.Cart
         public string ExpMonth { get; set; }
 
         [Required(ErrorMessage = " ")]
-        public string State { get; set; }
-
-        [Required(ErrorMessage = " ")]
         public string Zip { get; set; }
 
         [Required(ErrorMessage = " ")]

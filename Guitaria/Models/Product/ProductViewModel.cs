@@ -19,5 +19,8 @@ namespace Guitaria.Models.Product
         [Required]
         [Url]
         public string ImageUrl { get; set; }
+
+        [Required]
+        public bool IsAvailable { get; set; }
     }
 }

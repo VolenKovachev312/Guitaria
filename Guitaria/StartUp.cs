@@ -36,9 +36,6 @@ public class StartUp
 
         var app = builder.Build();
 
-        //Seed Database
-        SeedData.InitializeDatabase(app);
-
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -50,8 +47,10 @@ public class StartUp
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-
+        //Seed Database
         app.PrepareDatabase();
+        Infrastrcture.ApplicationBuilderExtensions.InitializeDatabase(app);
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
