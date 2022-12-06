@@ -41,7 +41,7 @@
         <div class="carousel-item active">
             <form asp-action="ViewProduct" asp-controller="Product" method="get">
                 <button name="productName" value="@Model.CarouselProducts.First().Name" class="btn">
-                    <img src="@Model.CarouselProducts.First().ImageUrl" class="d-block w-100" style="object-fit:contain">
+                    <img src="@Model.CarouselProducts.First().ImageUrl" class="d-block w-100">
                 </button>
             </form>
         </div>
@@ -51,7 +51,7 @@
                     <div class="carousel-item">
                     <form asp-action="ViewProduct" asp-controller="Product" method="get">
                         <button name="productName" value="@products[i].Name" class="btn">
-                            <img src="@products[i].ImageUrl" class="d-block w-100" style="object-fit:contain">
+                            <img src="@products[i].ImageUrl" class="d-block w-100">
                         </button>
                     </form>
                     </div>

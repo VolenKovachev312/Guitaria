@@ -12,42 +12,35 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
- </head>
-<style>
-    
-</style>
+</head>
+
 <body style="background-image:url(https://i.pinimg.com/originals/00/6a/9a/006a9addada9e46027cd4d84cbb3bf6d.png);height:1080px;width:1920px;background-repeat:no-repeat;background-attachment:fixed ">
-    <header >
+    <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow" style="background-color:aquamarine">
             <div class="container-fluid" style="margin-left:5%; background-color:aquamarine">
-                <a class="" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/favicon/GuitariaLogo.png" width="210px" height="54px"/></a>
+                <a class="" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/favicon/GuitariaLogo.png" width="210px" height="54px" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                    @*<form class="form-inline">
-                        <input class="form-control" type="search" placeholder="Search">
-                       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>*@
+                @*<form class="form-inline">
+                <input class="form-control" type="search" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>*@
                 <ul class="navbar-nav flex-grow-1" style="margin-left: 2rem; gap: 2rem;">
-                    
+
                     <li class="nav-item">
                         <b><font size="+1"> <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="All"><img src="https://cdn-icons-png.flaticon.com/512/82/82122.png" style="width:2.5rem;height:2.5rem;" /> Categories</a></font></b>
                     </li>
+                    <li>
+                        <div class="mt-2" style="width:47rem; margin-left: 2rem">
+                            <form asp-action="All" asp-controller="Product" method="get">
+                                <input class="input-group-lg form-control" type="text" placeholder=" Search..." name="searchQuery">
+                            </form>
+                        </div>
+                    </li>
                 </ul>
-                @*<div class="search">
-                    <form action="">
-                        <input type="text"
-                               placeholder=" Search..."
-                               name="productName">
-                        <button>
-                            <i class="fa fa-search"
-                               style="font-size: 18px;">
-                            </i>
-                        </button>
-                    </form>
-                </div>*@
-                    <partial name="_LoginPartial" />
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>
@@ -57,10 +50,10 @@
         </main>
     </div>
 
-   @* <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - Guitaria
-        </div>
+    @* <footer class="border-top footer text-muted">
+    <div class="container">
+    &copy; @DateTime.Now.Year - Guitaria
+    </div>
     </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

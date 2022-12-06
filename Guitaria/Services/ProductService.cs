@@ -92,7 +92,7 @@ namespace Guitaria.Services
             product.IsAvailable = false;
             await context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync(string categoryName)
+        public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync(string categoryName, string searchQuery)
         {
             IEnumerable<Product> entities;
             if(categoryName!=null &&
@@ -102,7 +102,7 @@ namespace Guitaria.Services
             }
             else
             {
-                 entities = await context.Products.ToListAsync();
+                 entities = await context.Products.Where(p=>p.Name.Contains(searchQuery)).ToListAsync();
             }
 
             return entities.Select(e => new ProductCardViewModel
