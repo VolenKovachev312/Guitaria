@@ -19,5 +19,9 @@ namespace Guitaria.Contracts
         Task<IEnumerable<Product>> LoadProductsAsync();
 
         Task AddProductToCartAsync(string userId, string productName);
+
+        Task<IEnumerable<Product>> LoadCarouselAsync();
+
+        Task<IEnumerable<Product>> LoadLatestAsync();
     }
 }

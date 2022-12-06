@@ -1,4 +1,6 @@
-﻿using Guitaria.Models;
+﻿using Guitaria.Contracts;
+using Guitaria.Models;
+using Guitaria.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,9 +8,28 @@ namespace Guitaria.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductService productService;
+
+        public HomeController(IProductService productService)
         {
-            return View();
+            this.productService = productService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            IndexViewModel model = new IndexViewModel()
+            {
+                CarouselProducts = await productService.LoadCarouselAsync(),
+                LatestProducts = await productService.LoadLatestAsync()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Index(IndexViewModel model)
+        {
+            return View(model);
         }
 
 
