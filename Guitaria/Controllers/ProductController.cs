@@ -34,16 +34,13 @@ namespace Guitaria.Controllers
 
         public async Task<IActionResult> All(string categoryName, string searchQuery,int currentPage)
         {
-            if(string.IsNullOrEmpty(categoryName)&&string.IsNullOrEmpty(searchQuery))
+            if (string.IsNullOrEmpty(categoryName) && string.IsNullOrEmpty(searchQuery))
             {
                 return RedirectToAction("All", "Category");
             }
-            if(currentPage==0)
-            {
-                currentPage = 1;
-            }
-            var models = await productService.GetAllAsync(categoryName,searchQuery,currentPage);
-            return View(models);
+
+            var model = await productService.GetAllAsync(categoryName,searchQuery,currentPage);
+            return View(model);
         }
 
         public async Task<IActionResult> ViewProduct(string productName)
@@ -85,9 +82,9 @@ namespace Guitaria.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> RemoveProduct()
+        public async Task<IActionResult> UnlistProduct()
         {
-            RemoveProductViewModel model = new RemoveProductViewModel()
+            UnlistProductViewModel model = new UnlistProductViewModel()
             {
                 Products = await productService.LoadProductsAsync()
             };
@@ -96,7 +93,7 @@ namespace Guitaria.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> RemoveProduct(RemoveProductViewModel model)
+        public async Task<IActionResult> UnlistProduct(UnlistProductViewModel model)
         {
             model.Products = await productService.LoadProductsAsync();
             if (!ModelState.IsValid)
@@ -105,7 +102,7 @@ namespace Guitaria.Controllers
             }
             try
             {
-                await productService.RemoveProductAsync(model);
+                await productService.UnlistProductAsync(model);
             }
             catch (Exception e)
             {

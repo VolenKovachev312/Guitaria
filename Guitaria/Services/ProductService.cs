@@ -81,13 +81,18 @@ namespace Guitaria.Services
             await context.Products.AddAsync(product);
             await context.SaveChangesAsync();
         }
-        public async Task RemoveProductAsync(RemoveProductViewModel model)
+        public async Task UnlistProductAsync(UnlistProductViewModel model)
         {
 
             Product? product = await context.Products.FirstOrDefaultAsync(c => c.Name == model.Name);
             if (product == null)
             {
                 tempData["Error"] = "Product does not exist.";
+                return;
+            }
+            if(product.IsAvailable==false)
+            {
+                tempData["Error"] = "Product is already unlisted.";
                 return;
             }
             product.IsAvailable = false;
@@ -97,6 +102,10 @@ namespace Guitaria.Services
         {
             IEnumerable<Product> entities;
             bool isSearchQuery = false;
+            if(currentPage==0)
+            {
+                currentPage = 1;
+            }
             var model = new AllProductsViewModel()
             {
                 CurrentPage = currentPage,

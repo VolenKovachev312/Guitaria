@@ -9,7 +9,7 @@ namespace Guitaria.Contracts
 
         Task AddProductAsync(CreateProductViewModel model);
 
-        Task RemoveProductAsync(RemoveProductViewModel model);
+        Task UnlistProductAsync(UnlistProductViewModel model);
 
         Task<IEnumerable<Category>> LoadCategoriesAsync();
 

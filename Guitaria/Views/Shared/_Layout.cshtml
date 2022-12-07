@@ -14,7 +14,7 @@
     <link rel="manifest" href="/site.webmanifest">
 </head>
 
-<body style="background-image:url(https://i.pinimg.com/originals/00/6a/9a/006a9addada9e46027cd4d84cbb3bf6d.png);height:1080px;width:1920px;background-repeat:no-repeat;background-attachment:fixed ">
+<body class=""style="background-image:url(https://i.pinimg.com/originals/00/6a/9a/006a9addada9e46027cd4d84cbb3bf6d.png);height:100vh;width:99.1vw;background-repeat:no-repeat;background-attachment:fixed ">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow" style="background-color:aquamarine">
             <div class="container-fluid" style="margin-left:5%; background-color:aquamarine">
@@ -35,7 +35,7 @@
                     <li>
                         <div class="mt-2" style="width:47rem; margin-left: 2rem">
                             <form asp-action="All" asp-controller="Product" method="get">
-                                <input class="input-group-lg form-control" type="text" placeholder=" Search..." name="searchQuery">
+                                <input class="input-group-lg form-control" type="" placeholder=" Search..." name="searchQuery">
                             </form>
                         </div>
                     </li>
@@ -43,18 +43,46 @@
                 <partial name="_LoginPartial" />
             </div>
         </nav>
+
     </header>
-    <div class="container" style="height: 100%;min-height:100vh; width:1260px;background-color: white;">
+    <div class="container " style="height: 100%;min-height:100vh; width:1260px;background-color: white;">
         <main role="main" class="pb-3">
             @RenderBody()
+
         </main>
+
     </div>
 
-    @* <footer class="border-top footer text-muted">
-    <div class="container">
-    &copy; @DateTime.Now.Year - Guitaria
-    </div>
-    </footer>*@
+     
+   
+    <style>
+        * {
+            margin: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .page-wrap {
+            min-height: 100%;
+            /* equal to footer height */
+            margin-bottom: -142px;
+        }
+
+            .page-wrap:after {
+                content: "";
+                display: block;
+            }
+
+            .site-footer, .page-wrap:after {
+                height: 142px;
+            }
+
+        .site-footer {
+            background: orange;
+        }
+    </style>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

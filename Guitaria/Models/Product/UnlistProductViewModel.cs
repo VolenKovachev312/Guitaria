@@ -2,7 +2,7 @@
 
 namespace Guitaria.Models.Product
 {
-    public class RemoveProductViewModel
+    public class UnlistProductViewModel
     {
         [Required]
         public string Name { get; set; }

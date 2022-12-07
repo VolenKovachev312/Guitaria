@@ -1,7 +1,7 @@
 ﻿@model IndexViewModel
 @*<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:50%;height:50%">
     <ol class="carousel-indicators">
-        
+
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -24,7 +24,7 @@
     </a>
 </div>*@
 @{
-   var products = Model.CarouselProducts.ToArray();
+    var products = Model.CarouselProducts.ToArray();
 }
 <center><font color="aquamarine"><h1 style="margin-top: 1rem">PREMIUM OFFERS</h1></font></center>
 <center><hr style="color:aquamarine; height:4px;width:70%" /></center>
@@ -32,10 +32,10 @@
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         @for (int i = 1; i < products.Count(); i++)
-            {
+        {
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" aria-label="Slide @i+1"></button>
-            }
-        
+        }
+
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -45,17 +45,17 @@
                 </button>
             </form>
         </div>
-        
-            @for (int i = 1; i < products.Count(); i++)
-            {
-                    <div class="carousel-item">
-                    <form asp-action="ViewProduct" asp-controller="Product" method="get">
-                        <button name="productName" value="@products[i].Name" class="btn">
-                            <img src="@products[i].ImageUrl" class="d-block w-100">
-                        </button>
-                    </form>
-                    </div>
-            }
+
+        @for (int i = 1; i < products.Count(); i++)
+        {
+            <div class="carousel-item">
+                <form asp-action="ViewProduct" asp-controller="Product" method="get">
+                    <button name="productName" value="@products[i].Name" class="btn">
+                        <img src="@products[i].ImageUrl" class="d-block w-100">
+                    </button>
+                </form>
+            </div>
+        }
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -83,7 +83,7 @@
                 <center><font size="+1"><p class="card-text mb-3">@product.Name</p></font></center>
                 <center><font><p class="card-text mb-3">@product.Price $</p></font></center>
             </div>
-            
+
         </div>
 
     }

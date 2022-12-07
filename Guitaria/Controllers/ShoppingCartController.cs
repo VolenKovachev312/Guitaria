@@ -49,12 +49,6 @@ namespace Guitaria.Controllers
                 ModelState.AddModelError("", "Fill out the whole form!");
                 return View(model);
             }
-            if(model.Products.Count==0)
-            {
-                ModelState.AddModelError("", "Shopping cart is empty!");
-                return View(model);
-            }
-            TempData["Checkout"] = "Order has been confirmed!";
             await cartService.AddOrderToHistoryAsync(userId);
             await cartService.ClearCartAsync(userId);
             return RedirectToAction("Checkout");
@@ -76,7 +70,6 @@ namespace Guitaria.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await cartService.RemoveProductAsync(userId, productId);
 
-            TempData["Success"] = "Removed item from shopping cart.";
             return RedirectToAction("ShowCart","ShoppingCart");
         }
 
@@ -85,7 +78,7 @@ namespace Guitaria.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await cartService.ClearCartAsync(userId);
 
-            TempData["Success"] = "Shopping cart has been emptied.";
+            
             return RedirectToAction("ShowCart", "ShoppingCart");
         }
     }

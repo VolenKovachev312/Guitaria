@@ -48,7 +48,6 @@ namespace Guitaria.Controllers
             try
             {
                 await categoryService.AddCategoryAsync(model);
-                //redirect to all categories
             }
             catch (ArgumentException ae)
             {

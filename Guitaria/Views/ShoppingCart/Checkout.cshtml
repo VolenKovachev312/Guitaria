@@ -11,7 +11,7 @@
 .col-25 {
   -ms-flex: 25%; /* IE10 */
   flex: 25%;
-}
+}   
 
 .col-50 {
   -ms-flex: 50%; /* IE10 */
@@ -89,6 +89,12 @@ blueborder{
                          @TempData["Checkout"]
                     </div>
                 }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger mt-3">
+                        @TempData["Error"]
+                    </div>
+                }
                 <div class="row">
                     <div class="col-50">
                         <h3>Billing Address</h3>
@@ -128,7 +134,7 @@ blueborder{
                         <span asp-validation-for="CreditCardNumber" class="text-danger"></span>
 
                         <label asp-for="@Model.ExpMonth"><i class="fa fa-user"></i>Exp Month</label>
-                        <input asp-for="@Model.ExpMonth" type="text" placeholder="September" class="form-control" style="border-color:aquamarine;" aria-required="true" />
+                        <input asp-for="@Model.ExpMonth" type="text" placeholder="07" class="form-control" style="border-color:aquamarine;" aria-required="true" />
                         <span asp-validation-for="ExpMonth" class="text-danger"></span>
 
                         <div class="row">
@@ -165,7 +171,8 @@ blueborder{
             </h4>
             @foreach(var product in Model.Products)
             {
-                <p><a>@product.Name</a> <span class="price">$@product.Price</span></p>
+                <hr />
+                <p><a>@product.Name</a> <span style="float:right">$@product.Price</span></p>
             }
                 <hr style="height:2px;color:aquamarine;">
             <p>Total <span class="price" style="color:black"><b>$@Model.Products.Sum(p=>p.Price)</b></span></p>

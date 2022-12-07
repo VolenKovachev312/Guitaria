@@ -83,7 +83,7 @@ namespace Guitaria.Infrastrcture
             categories.Add(new Category()
             {
                 Name = "Acoustic Guitars",
-                ImageUrl = "https://cookesinstruments.s3.amazonaws.com/uploads/c/product/image/image/23753/square_83520-f310.jpg",
+                ImageUrl = "https://muzikercdn.com/uploads/products/240/24042/main_59242ba1.jpg",
                 Products = new List<Product>()
                 {
                     new Product()
@@ -154,7 +154,7 @@ namespace Guitaria.Infrastrcture
             categories.Add(new Category()
             {
                 Name = "Electric Guitars",
-                ImageUrl = "https://musicdivision.bg/wp-content/uploads/2022/01/EKO-S300RED.jpeg",
+                ImageUrl = "https://muzikercdn.com/uploads/products/7268/726880/main_a77ad51e.jpg",
                 Products = new List<Product>()
                 {
                     new Product()
