@@ -32,13 +32,17 @@ namespace Guitaria.Controllers
             return RedirectToAction("ViewProduct", new { productName = productName });
         }
 
-        public async Task<IActionResult> All(string categoryName, string searchQuery)
+        public async Task<IActionResult> All(string categoryName, string searchQuery,int currentPage)
         {
             if(string.IsNullOrEmpty(categoryName)&&string.IsNullOrEmpty(searchQuery))
             {
-                return RedirectToAction("All","Category");
+                return RedirectToAction("All", "Category");
             }
-            var models = await productService.GetAllAsync(categoryName,searchQuery);
+            if(currentPage==0)
+            {
+                currentPage = 1;
+            }
+            var models = await productService.GetAllAsync(categoryName,searchQuery,currentPage);
             return View(models);
         }
 

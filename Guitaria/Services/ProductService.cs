@@ -5,6 +5,7 @@ using Guitaria.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Guitaria.Services
 {
@@ -39,7 +40,7 @@ namespace Guitaria.Services
                 tempData["ViewProductError"] = "Invalid product.";
                 return;
             }
-            if(!product.IsAvailable)
+            if (!product.IsAvailable)
             {
                 tempData["ViewProductError"] = "Product is unavailable at the moment.";
                 return;
@@ -56,7 +57,7 @@ namespace Guitaria.Services
                 {
                     ShoppingCartId = user.ShoppingCart.Id,
                     ProductId = product.Id
-                }) ;
+                });
             }
             await context.SaveChangesAsync();
         }
@@ -82,7 +83,7 @@ namespace Guitaria.Services
         }
         public async Task RemoveProductAsync(RemoveProductViewModel model)
         {
-           
+
             Product? product = await context.Products.FirstOrDefaultAsync(c => c.Name == model.Name);
             if (product == null)
             {
@@ -92,31 +93,70 @@ namespace Guitaria.Services
             product.IsAvailable = false;
             await context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<ProductCardViewModel>> GetAllAsync(string categoryName, string searchQuery)
+        public async Task<AllProductsViewModel> GetAllAsync(string categoryName, string searchQuery, int currentPage)
         {
             IEnumerable<Product> entities;
-            if(categoryName!=null &&
+            bool isSearchQuery = false;
+            var model = new AllProductsViewModel()
+            {
+                CurrentPage = currentPage,
+                SearchQuery = searchQuery
+
+            };
+            if (categoryName != null &&
                 context.Categories.FirstOrDefault(c => c.Name == categoryName) != null)
             {
-                 entities = await context.Products.Include(p => p.Category).Where(p => p.Category.Name == categoryName).ToListAsync();
+                entities = await context.Products.Include(p => p.Category).Where(p => p.Category.Name == categoryName&&p.IsAvailable).ToListAsync();
+            }
+            else //if(searchQuery!=null)
+            {
+                entities = await context.Products.Include(p => p.Category).Where(p => p.Name.Contains(searchQuery)&&p.IsAvailable).ToListAsync();
+                isSearchQuery = true;
+            }
+            model.NumberOfPages = entities.Count() / AllProductsViewModel.ProductsPerPage;
+            if (entities.Count() % AllProductsViewModel.ProductsPerPage != 0)
+            {
+                model.NumberOfPages++;
+            }
+            if (currentPage > model.NumberOfPages)
+            {
+                model.CurrentPage = model.NumberOfPages;
+            }
+            if (!isSearchQuery)
+            {
+                model.Products = entities
+                .Skip((model.CurrentPage - 1) * AllProductsViewModel.ProductsPerPage)
+                .Take(AllProductsViewModel.ProductsPerPage)
+                .Select(e => new ProductCardViewModel
+                {
+                    Name = e.Name,
+                    ImageUrl = e.ImageUrl,
+                    Price = e.Price,
+                    isAvailable = e.IsAvailable,
+                    CategoryName = e.Category.Name
+                });
             }
             else
             {
-                 entities = await context.Products.Where(p=>p.Name.Contains(searchQuery)).ToListAsync();
+                model.Products = entities
+                .Skip((model.CurrentPage - 1) * AllProductsViewModel.ProductsPerPage)
+                .Take(AllProductsViewModel.ProductsPerPage)
+                .Select(e => new ProductCardViewModel
+                {
+                    Name = e.Name,
+                    ImageUrl = e.ImageUrl,
+                    Price = e.Price,
+                    isAvailable = e.IsAvailable,
+                    CategoryName = String.Empty
+                });
             }
 
-            return entities.Select(e => new ProductCardViewModel
-            {
-                Name=e.Name,
-                ImageUrl=e.ImageUrl,
-                Price=e.Price,
-                isAvailable=e.IsAvailable
-            });
+            return model;
         }
 
         public async Task<ProductViewModel> GetProductAsync(string productName)
         {
-            
+
             Product? tempProduct = await context.Products.FirstOrDefaultAsync(c => c.Name == productName);
             if (tempProduct == null)
             {
@@ -127,8 +167,8 @@ namespace Guitaria.Services
             {
                 Name = tempProduct.Name,
                 ImageUrl = tempProduct.ImageUrl,
-                Description=tempProduct.Description,
-                Price=tempProduct.Price
+                Description = tempProduct.Description,
+                Price = tempProduct.Price
             };
             return model;
         }
@@ -146,7 +186,7 @@ namespace Guitaria.Services
 
         public async Task<IEnumerable<Product>> LoadProductsAsync()
         {
-            return await context.Products.Include(p=>p.Category).ToListAsync();
+            return await context.Products.Include(p => p.Category).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> LoadCarouselAsync()

@@ -5,7 +5,7 @@ namespace Guitaria.Contracts
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductCardViewModel>> GetAllAsync(string categoryName,string searchQuery);
+        Task<AllProductsViewModel> GetAllAsync(string categoryName,string searchQuery,int currentPage);
 
         Task AddProductAsync(CreateProductViewModel model);
 

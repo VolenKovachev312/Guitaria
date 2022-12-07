@@ -5,6 +5,8 @@ namespace Guitaria.Models.Product
 {
     public class ProductCardViewModel
     {
+        
+
         [Required]
         public string Name { get; set; }
 
@@ -17,6 +19,7 @@ namespace Guitaria.Models.Product
         [Required]
         public bool isAvailable { get; set; }
 
-        IEnumerable<Data.Models.Category> Categories { get; set; }
+        [Required]
+        public string CategoryName { get; set; }
     }
 }
