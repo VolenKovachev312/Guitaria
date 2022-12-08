@@ -51,6 +51,7 @@ namespace Guitaria.Controllers
             }
             catch (ArgumentException ae)
             {
+                TempData["Error"] = ae.Message;
                 return View(model);
             }
             model.Categories = await categoryService.LoadCategoriesAsync();
@@ -82,9 +83,9 @@ namespace Guitaria.Controllers
             {
                 await categoryService.RemoveCategoryAsync(model);
             }
-            catch (Exception e)
+            catch (ArgumentException ae)
             {
-                ModelState.AddModelError("", e.Message);
+                TempData["Error"]= ae.Message;
                 return View(model);
             }
             model.Categories = await categoryService.LoadCategoriesAsync();
@@ -102,8 +103,9 @@ namespace Guitaria.Controllers
                 model = await categoryService.GetCategoryAsync(categoryName);
 
             }
-            catch (Exception)
+            catch (ArgumentException ae)
             {
+                TempData["Error"] = ae.Message;
                 return RedirectToAction("All");
             } 
 
@@ -118,7 +120,16 @@ namespace Guitaria.Controllers
             {
                 return View(model);
             }
-            await categoryService.EditCategoryAsync(model,categoryName);
+            try
+            {
+                await categoryService.EditCategoryAsync(model, categoryName);
+
+            }
+            catch (ArgumentException ae)
+            {
+                TempData["Error"] = ae.Message;
+                return View(model);
+            }
             return RedirectToAction("All", "Category");
         }
     }

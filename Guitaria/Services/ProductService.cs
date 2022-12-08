@@ -2,57 +2,35 @@
 using Guitaria.Data.Models;
 using Guitaria.Models.Product;
 using Guitaria.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System.Data.Common;
 
 namespace Guitaria.Services
 {
     public class ProductService : IProductService
     {
         private readonly ApplicationDbContext context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
-        private HttpContext? httpContext;
-        private ITempDataDictionary tempData;
 
-        public ProductService(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataDictionaryFactory)
+        public ProductService(ApplicationDbContext _context)
         {
             context = _context;
-            _httpContextAccessor = httpContextAccessor;
-            _tempDataDictionaryFactory = tempDataDictionaryFactory;
-            httpContext = _httpContextAccessor.HttpContext;
-            tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
+            
         }
+        
         public async Task AddProductToCartAsync(string userId, string productName)
         {
 
             var user = await context.Users.Include(u => u.ShoppingCart).ThenInclude(sc => sc.ShoppingCartProducts).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
-            if (user == null)
-            {
-                tempData["ViewProductError"] = "User not logged in.";
-                return;
-            }
+            
             var product = await context.Products.FirstOrDefaultAsync(p => p.Name == productName);
-            if (product == null)
-            {
-                tempData["ViewProductError"] = "Invalid product.";
-                return;
-            }
-            if (!product.IsAvailable)
-            {
-                tempData["ViewProductError"] = "Product is unavailable at the moment.";
-                return;
-            }
             var userProducts = user.ShoppingCart.ShoppingCartProducts.Select(p => p.Product).ToList();
             if (userProducts.Contains(product))
             {
-                tempData["ViewProductError"] = "Item is already in cart.";
+                throw new ArgumentException("Item is already in shopping cart!");
             }
             else
             {
-                tempData["ViewProductSuccess"] = "Successfully added product to shopping cart!";
                 user.ShoppingCart.ShoppingCartProducts.Add(new ShoppingCartProduct()
                 {
                     ShoppingCartId = user.ShoppingCart.Id,
@@ -78,6 +56,10 @@ namespace Guitaria.Services
                 Price = model.Price,
                 ImageUrl = model.ImageUrl
             };
+            if (context.Products.Where(p=>p.Name==model.Name).Any())
+            {
+                throw new ArgumentException("Product with this name already exists!");
+            }
             await context.Products.AddAsync(product);
             await context.SaveChangesAsync();
         }
@@ -87,13 +69,11 @@ namespace Guitaria.Services
             Product? product = await context.Products.FirstOrDefaultAsync(c => c.Name == model.Name);
             if (product == null)
             {
-                tempData["Error"] = "Product does not exist.";
-                return;
+                throw new ArgumentException("Product does not exist.");
             }
             if(product.IsAvailable==false)
             {
-                tempData["Error"] = "Product is already unlisted.";
-                return;
+                throw new ArgumentException("Product is already unlisted.");
             }
             product.IsAvailable = false;
             await context.SaveChangesAsync();
@@ -117,7 +97,7 @@ namespace Guitaria.Services
             {
                 entities = await context.Products.Include(p => p.Category).Where(p => p.Category.Name == categoryName&&p.IsAvailable).ToListAsync();
             }
-            else //if(searchQuery!=null)
+            else 
             {
                 entities = await context.Products.Include(p => p.Category).Where(p => p.Name.Contains(searchQuery)&&p.IsAvailable).ToListAsync();
                 isSearchQuery = true;
@@ -169,15 +149,15 @@ namespace Guitaria.Services
             Product? tempProduct = await context.Products.FirstOrDefaultAsync(c => c.Name == productName);
             if (tempProduct == null)
             {
-                tempData["Error"] = "Product does not exist!";
-                throw new Exception();
+                throw new ArgumentException("Product does not exist!");
             }
             ProductViewModel model = new ProductViewModel()
             {
                 Name = tempProduct.Name,
                 ImageUrl = tempProduct.ImageUrl,
                 Description = tempProduct.Description,
-                Price = tempProduct.Price
+                Price = tempProduct.Price,
+                IsAvailable=tempProduct.IsAvailable
             };
             return model;
         }
@@ -185,6 +165,10 @@ namespace Guitaria.Services
         public async Task EditProductAsync(ProductViewModel model, string productName)
         {
             var product = context.Products.FirstOrDefault(c => c.Name == productName);
+            if(context.Products.Where(p=>p.Name==model.Name).Any())
+            {
+                throw new ArgumentException("Product with this name already exists.");
+            }
             product.Name = model.Name;
             product.ImageUrl = model.ImageUrl;
             product.Description = model.Description;
@@ -200,12 +184,12 @@ namespace Guitaria.Services
 
         public async Task<IEnumerable<Product>> LoadCarouselAsync()
         {
-            return await context.Products.OrderByDescending(p => p.Price).Take(4).ToListAsync();
+            return await context.Products.OrderByDescending(p => p.Price).Where(p=>p.IsAvailable).Take(4).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> LoadLatestAsync()
         {
-            return await context.Products.OrderByDescending(p => p.TimeAdded).Take(4).ToListAsync();
+            return await context.Products.OrderByDescending(p => p.TimeAdded).Where(p => p.IsAvailable).Take(4).ToListAsync();
         }
     }
 }

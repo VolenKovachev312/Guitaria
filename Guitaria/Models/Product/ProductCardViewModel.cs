@@ -5,8 +5,6 @@ namespace Guitaria.Models.Product
 {
     public class ProductCardViewModel
     {
-        
-
         [Required]
         public string Name { get; set; }
 

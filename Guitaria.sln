@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guitaria", "Guitaria\Guitaria.csproj", "{911EF65D-B9B7-4C05-A184-89EFF8AB1685}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guitaria.Test", "Guitaria.Test\Guitaria.Test.csproj", "{0B431898-E62F-410E-9633-99B7F0F192CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{911EF65D-B9B7-4C05-A184-89EFF8AB1685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{911EF65D-B9B7-4C05-A184-89EFF8AB1685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{911EF65D-B9B7-4C05-A184-89EFF8AB1685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B431898-E62F-410E-9633-99B7F0F192CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B431898-E62F-410E-9633-99B7F0F192CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B431898-E62F-410E-9633-99B7F0F192CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B431898-E62F-410E-9633-99B7F0F192CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

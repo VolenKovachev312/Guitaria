@@ -10,18 +10,10 @@ namespace Guitaria.Services
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly ApplicationDbContext context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
-        private HttpContext? httpContext;
-        private ITempDataDictionary tempData;
-
-        public ShoppingCartService(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataDictionaryFactory)
+        
+        public ShoppingCartService(ApplicationDbContext _context)
         {
             context = _context;
-            _httpContextAccessor = httpContextAccessor;
-            _tempDataDictionaryFactory = tempDataDictionaryFactory;
-            httpContext = _httpContextAccessor.HttpContext;
-            tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
         }
         public async Task AddOrderToHistoryAsync(string userId)
         {
@@ -29,8 +21,7 @@ namespace Guitaria.Services
             var purchaseHistory = user.PurchaseHistory;
             if (user.ShoppingCart.ShoppingCartProducts.Select(p=>p.Product).Count() == 0)
             {
-                tempData["Error"]="Shopping cart is empty!";
-                return;
+                throw new Exception("Shopping cart is empty!");
             }
             var order = new Order();
             var finalPrice = user.ShoppingCart.ShoppingCartProducts.Select(p => p.Product).Sum(p => p.Price);
@@ -39,7 +30,6 @@ namespace Guitaria.Services
             {
                 await context.Database.ExecuteSqlInterpolatedAsync($"INSERT INTO [OrderProduct](OrderId,ProductId) VALUES ({order.Id},{product.ProductId})");
             }
-            tempData["Checkout"] = "Order has been confirmed!";
             await context.SaveChangesAsync();
         }
 
@@ -47,7 +37,6 @@ namespace Guitaria.Services
         {
             var user = await context.Users.Include(u => u.ShoppingCart).ThenInclude(sc => sc.ShoppingCartProducts).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
             user?.ShoppingCart.ShoppingCartProducts.Clear();
-            tempData["Success"] = "Shopping cart has been emptied.";
             await context.SaveChangesAsync();
         }
 
@@ -83,7 +72,6 @@ namespace Guitaria.Services
 
             var shoppingCartProduct = shoppingCart.ShoppingCartProducts.FirstOrDefault(p => p.Product == product);
             shoppingCart.ShoppingCartProducts.Remove(shoppingCartProduct);
-            tempData["Success"] = "Removed item from shopping cart.";
             await context.SaveChangesAsync();
         }
     }

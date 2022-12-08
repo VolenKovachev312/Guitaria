@@ -11,18 +11,11 @@ namespace Guitaria.Services
     public class CategoryService : ICategoryService
     {
         private readonly ApplicationDbContext context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
-        private HttpContext? httpContext;
-        private ITempDataDictionary tempData;
-        public CategoryService(ApplicationDbContext _context, IHttpContextAccessor httpContextAccessor, ITempDataDictionaryFactory tempDataDictionaryFactory)
+        public CategoryService(ApplicationDbContext _context)
         {
             context = _context;
-            _httpContextAccessor = httpContextAccessor;
-            _tempDataDictionaryFactory = tempDataDictionaryFactory;
-            httpContext = _httpContextAccessor.HttpContext;
-            tempData = _tempDataDictionaryFactory.GetTempData(httpContext);
         }
+
         public async Task<IEnumerable<CategoryViewModel>> GetAllAsync()
         {
             var entities=await context.Categories.ToListAsync();
@@ -43,8 +36,7 @@ namespace Guitaria.Services
             };
             if (context.Categories.Any(c => c.Name == model.Name))
             {
-                tempData["Error"] = "Category already exists.";
-                throw new ArgumentException();
+                throw new ArgumentException("Category already exists.");
             }
             await context.Categories.AddAsync(entity);
             await context.SaveChangesAsync();
@@ -55,13 +47,11 @@ namespace Guitaria.Services
             Category? tempCategory = await context.Categories.Include(c=>c.Products).FirstOrDefaultAsync(c => c.Name == model.Name);
             if (tempCategory == null)
             {
-                tempData["Error"] = "Category does not exist.";
-                return;
+                throw new ArgumentException("Category does not exist.");
             }
             if (tempCategory.Products.Any())
             {
-                tempData["Error"] = "There are products in this category.";
-                return;
+                throw new ArgumentException("There are products in this category.");
             }
             context.Categories.Remove(tempCategory);
             await context.SaveChangesAsync();
@@ -76,7 +66,7 @@ namespace Guitaria.Services
             Category? tempCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName);
             if (tempCategory == null)
             {
-                tempData["Error"] = "Category does not exist.";
+                throw new ArgumentException("Category does not exist.");
             }
             CategoryViewModel model = new  CategoryViewModel()
             {
@@ -89,6 +79,10 @@ namespace Guitaria.Services
         public async Task EditCategoryAsync(CategoryViewModel model, string categoryName)
         {
             var category = context.Categories.FirstOrDefault(c => c.Name == categoryName);
+            if (context.Categories.Where(c => c.Name == model.Name).Any())
+            {
+                throw new ArgumentException("Category with this name already exists.");
+            }
             category.Name = model.Name;
             category.ImageUrl = model.ImageUrl;
             await context.SaveChangesAsync();

@@ -32,8 +32,10 @@ public class StartUp
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+        
         builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/User/Login");
-
+        
+        builder.Services.AddMemoryCache();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -49,8 +51,7 @@ public class StartUp
         }
         //Seed Database
         app.PrepareDatabase();
-        Infrastrcture.ApplicationBuilderExtensions.InitializeDatabase(app);
-
+        app.InitializeDatabase();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

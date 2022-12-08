@@ -3,7 +3,12 @@
 @{
     ViewBag.Title = "Add Product";
 }
-
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["Error"]
+    </div>
+}
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr style="height:4px;color:aquamarine"/>
 

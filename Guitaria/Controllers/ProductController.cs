@@ -1,10 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data.Models;
-using Guitaria.Models.Category;
 using Guitaria.Models.Product;
-using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,21 +11,27 @@ namespace Guitaria.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService productService;
-        private readonly UserManager<User> userManager;
 
-        public ProductController(IProductService _productService,UserManager<User> _userManager)
+        public ProductController(IProductService _productService)
         {
             productService = _productService;
-            userManager=_userManager;
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddToCart(string productName)
         {
                 var userId = User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value;
-                
+            try
+            {
                 await productService.AddProductToCartAsync(userId, productName);
-
+            }
+            catch(ArgumentException ae)
+            {
+                TempData["Error"] = ae.Message;
+                return RedirectToAction("ViewProduct", new { productName = productName });
+            }
+            TempData["Success"] = "Item added to cart successfully.";
             return RedirectToAction("ViewProduct", new { productName = productName });
         }
 
@@ -45,8 +48,16 @@ namespace Guitaria.Controllers
 
         public async Task<IActionResult> ViewProduct(string productName)
         {
-            ProductViewModel model = await productService.GetProductAsync(productName);
-
+            ProductViewModel model;
+            try
+            {
+                 model = await productService.GetProductAsync(productName);
+            }
+            catch(Exception ae)
+            {
+                TempData["Error"] = ae.Message;
+                return RedirectToAction("All", "Category");
+            }
             return View(model);
         }
 
@@ -73,9 +84,10 @@ namespace Guitaria.Controllers
             {
                 await productService.AddProductAsync(model);
             }
-            catch (Exception e)
+            catch (ArgumentException ae)
             {
-                ModelState.AddModelError("", e.Message);
+                TempData["Error"] = ae.Message;
+                model.Categories = await productService.LoadCategoriesAsync();
                 return View(model);
             }
             return RedirectToAction("All", "Product");
@@ -104,9 +116,9 @@ namespace Guitaria.Controllers
             {
                 await productService.UnlistProductAsync(model);
             }
-            catch (Exception e)
+            catch (ArgumentException ae)
             {
-                ModelState.AddModelError("", e.Message);
+                TempData["Error"]=ae.Message;
                 return View(model);
             }
             model.Products = await productService.LoadProductsAsync();
@@ -122,8 +134,9 @@ namespace Guitaria.Controllers
             {
                  model = await productService.GetProductAsync(productName);
             }
-            catch(Exception)
+            catch(ArgumentException ae)
             {
+                TempData["Error"] = ae.Message;
                 return RedirectToAction("All");
             }
             
@@ -138,7 +151,16 @@ namespace Guitaria.Controllers
             {
                 return View(model);
             }
-            await productService.EditProductAsync(model, productName);
+            try
+            {
+                await productService.EditProductAsync(model, productName);
+
+            }
+            catch (ArgumentException ae)
+            {
+                TempData["Error"] = ae.Message;
+                return View(model);
+            }
             return RedirectToAction("All");
         }
        

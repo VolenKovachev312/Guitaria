@@ -3,6 +3,7 @@ using Guitaria.Models.Cart;
 using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
 
 namespace Guitaria.Controllers
@@ -30,10 +31,11 @@ namespace Guitaria.Controllers
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
-            var userId= User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
             var model = new CheckoutViewModel()
             {
-                Products=await cartService.LoadProductsCheckoutAsync(userId)
+                Products = await cartService.LoadProductsCheckoutAsync(userId)
             };
 
             return View(model);
@@ -46,11 +48,23 @@ namespace Guitaria.Controllers
             model.Products = await cartService.LoadProductsCheckoutAsync(userId);
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Fill out the whole form!");
+                TempData["Error"] = "Fill out the whole form!";
                 return View(model);
             }
-            await cartService.AddOrderToHistoryAsync(userId);
+            try
+            {
+                await cartService.AddOrderToHistoryAsync(userId);
+            }
+            catch (Exception e)
+            {
+                TempData["Error"] = e.Message;
+                return View(model);
+            }
+
             await cartService.ClearCartAsync(userId);
+
+            TempData["Checkout"] = "Order has been confirmed!";
+
             return RedirectToAction("Checkout");
         }
 
@@ -69,16 +83,17 @@ namespace Guitaria.Controllers
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await cartService.RemoveProductAsync(userId, productId);
+            TempData["Success"] = "Removed item from shopping cart.";
 
-            return RedirectToAction("ShowCart","ShoppingCart");
+            return RedirectToAction("ShowCart", "ShoppingCart");
         }
 
         public async Task<IActionResult> ClearCart()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             await cartService.ClearCartAsync(userId);
+            TempData["Success"] = "Shopping cart has been emptied.";
 
-            
             return RedirectToAction("ShowCart", "ShoppingCart");
         }
     }
