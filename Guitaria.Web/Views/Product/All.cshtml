@@ -26,7 +26,7 @@
             </div>
             @if (User.IsInRole("Administrator"))
             {
-                <form asp-action="Edit" asp-controller="Product" method="get">
+                <form asp-action="Edit" asp-controller="Product" asp-area="Admin" method="get">
                     <button name="productName" value="@product.Name" class="btn-dark mb-3">
                         Edit
                     </button>
@@ -35,18 +35,6 @@
         </div>
 
     }
-    @* @{
-    var parmsPrevious = new Dictionary<string, string>
-    {
-    {"categoryName",@Model.Products.Select(p=>p.CategoryName).First()},
-    {"currentPage",(Model.CurrentPage-1).ToString()}
-    };
-    var parmsNext = new Dictionary<string, string>
-    {
-    {"categoryName",@Model.Products.Select(p=>p.CategoryName).First()},
-    {"currentPage",(Model.CurrentPage+1).ToString()}
-    };
-    }*@
     @{
         string categoryName = Model.Products.Select(p => p.CategoryName).FirstOrDefault();
         string searchQuery = Model.SearchQuery;
@@ -55,7 +43,7 @@
 <div class="row">
     <div class="col">
         <div class="mx-auto mt-5">
-            @if(string.IsNullOrEmpty(categoryName))
+            @if (string.IsNullOrEmpty(categoryName))
             {
                 @for (int i = 1; i <= Model.NumberOfPages; i++)
                 {
@@ -70,19 +58,5 @@
                 }
             }
         </div>
-
-</div>
-    @*<div class="col-md-6">
-    <a asp-controller="Product" asp-action="All" asp-all-route-data="parmsPrevious">Previous</a>
-    </div>*@
-    @*<div class="col-md-6">
-    <a asp-controller="Product" asp-action="All" name="categoryName" asp-route-categoryName="@(categoryName)" asp-route-currentPage="@(Model.CurrentPage-1)">Previous</a>
     </div>
-    @*<div class="col-md-6">
-    <a asp-controller="Product" asp-action="All" asp-all-route-data="parmsNext">Next</a>
-    </div>*@
-    @*
-    <div class="col-md-6">
-    <a asp-controller="Product" asp-action="All" name="categoryName" asp-route-categoryName="@(categoryName)" asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
-    </div>*@
 </div>

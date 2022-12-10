@@ -22,7 +22,7 @@
 
                 @if (User.IsInRole("Administrator"))
                 {
-                    <form asp-action="Edit" asp-controller="Category" method="get">
+                    <form asp-action="Edit" asp-controller="Category" asp-area="Admin" method="get">
                         <button name="categoryName" value="@category.Name" class="btn-dark mb-3">
                             Edit
                         </button>

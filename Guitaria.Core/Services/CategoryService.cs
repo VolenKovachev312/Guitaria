@@ -77,7 +77,8 @@ namespace Guitaria.Core.Services
         public async Task EditCategoryAsync(CategoryViewModel model, string categoryName)
         {
             var category = context.Categories.FirstOrDefault(c => c.Name == categoryName);
-            if (context.Categories.Where(c => c.Name == model.Name).Any())
+            var checkCategory = context.Categories.FirstOrDefault(c => c.Name == model.Name);
+            if (checkCategory!=null&&category!=checkCategory)
             {
                 throw new ArgumentException("Category with this name already exists.");
             }

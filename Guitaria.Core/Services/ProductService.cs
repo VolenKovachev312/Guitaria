@@ -160,7 +160,8 @@ namespace Guitaria.Core.Services
         public async Task EditProductAsync(ProductViewModel model, string productName)
         {
             var product = context.Products.FirstOrDefault(c => c.Name == productName);
-            if(context.Products.Where(p=>p.Name==model.Name).Any())
+            var checkProduct = context.Products.FirstOrDefault(p => p.Name == model.Name);
+            if (checkProduct!=null&&product!=checkProduct)
             {
                 throw new ArgumentException("Product with this name already exists.");
             }

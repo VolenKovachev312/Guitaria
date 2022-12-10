@@ -61,7 +61,7 @@ public class StartUp
         app.UseAuthorization();
 
         app.MapAreaControllerRoute(
-        name: "AdminArea",
+        name: "Areas",
         areaName: "Admin",
         pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
@@ -69,13 +69,13 @@ public class StartUp
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllerRoute(
-              name: "areas",
-              pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-            );
-        });
+        //app.UseEndpoints(endpoints =>
+        //{
+        //    endpoints.MapControllerRoute(
+        //      name: "Areas",
+        //      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+        //    );
+        //});
 
         app.Run();
     }

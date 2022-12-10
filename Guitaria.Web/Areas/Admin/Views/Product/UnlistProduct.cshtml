@@ -39,14 +39,14 @@
                                                 @if (product.IsAvailable)
                                             {
                                                     <a class="list-group-item list-group-item-action" style="border-color:aquamarine">
-                                                    <button asp-action="ViewProduct" asp-controller="Product" value="@product.Name" name="productName" class="btn">
+                                                    <button asp-action="ViewProduct" asp-area="" asp-controller="Product" value="@product.Name" name="productName" class="btn">
                                                         <span style="color:lawngreen; font-size:large">@availability </span> <br>@product.Name - @product.Category.Name
                                                         <br />
                                                         
                                                         
                                                         </button>
                                                         <br/>
-                                                    <button asp-action="Edit" formmethod="get" name="productName" value="@product.Name" class="btn-dark">
+                                                    <button asp-action="Edit"  formmethod="get" name="productName" value="@product.Name" class="btn-dark">
                                                         Edit
                                                     </button>
                                                     </a>
@@ -55,7 +55,7 @@
                                             else
                                             {
                                                     <a class="list-group-item list-group-item-action" style="border-color:aquamarine">
-                                                        <button asp-action="ViewProduct" asp-controller="Product" value="@product.Name" name="productName" class="btn">
+                                                        <button asp-action="ViewProduct" asp-area="" asp-controller="Product" value="@product.Name" name="productName" class="btn">
                                                             <span style="color:red; font-size:large">@availability </span> <br>@product.Name - @product.Category.Name
                                                             <br />
                                                             

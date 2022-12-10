@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            @if(!Model.IsAvailable)
+            @if (!Model.IsAvailable)
             {
                 <h1 style="color:red;margin-top:1rem">Unavailable!</h1>
             }
@@ -27,20 +27,20 @@
                 <font size="+3" style="font-family: 'Courier New', monospace;">
                     <center><strong>DESCRIPTION </strong></center>
                 </font>
-                <hr style="height:2px; color:aquamarine"  />
+                <hr style="height:2px; color:aquamarine" />
                 <div style="overflow-wrap: break-word;">
                     <font size="+1" style="font-family: 'Courier New', monospace;">
                         <p>
                             @Model.Description
                         </p>
                     </font>
-                 </div>
+                </div>
             </div>
         </div>
         <div class="col" style="width: 36rem; margin-top: 25px;">
             <div>
                 <center><font size="+5" style="font-family: 'Courier New', monospace;">@Model.Name</font></center>
-                <hr style="height:3px; color:aquamarine"  />
+                <hr style="height:3px; color:aquamarine" />
             </div>
             <center>
                 <div class="card" style="width: 36rem; margin-top:25px; border-color:aquamarine">
@@ -50,7 +50,7 @@
                                 @Model.Price $
                             </p>
                         </font>
-                        @if(Model.IsAvailable==true)
+                        @if (Model.IsAvailable == true)
                         {
                             <form asp-action="AddToCart" asp-controller="Product">
                                 <button name="productName" value="@Model.Name" class="btn btn-success">Add To Shopping Cart</button>
@@ -58,15 +58,15 @@
                         }
                         else
                         {
-                                <button class="btn btn-danger">Unavailable</button>
+                            <button class="btn btn-danger">Unavailable</button>
                         }
-                        
+
                     </center>
                 </div>
                 <div style="margin-top:2rem">
                     @if (User.IsInRole("Administrator"))
                     {
-                        <form asp-action="Edit" asp-controller="Product" method="get">
+                        <form asp-action="Edit" asp-controller="Product" asp-area="Admin" method="get">
                             <button name="productName" value="@Model.Name" class="btn-dark mb-3" style="width:5rem;height:2.5rem">
                                 Edit
                             </button>
@@ -77,6 +77,3 @@
         </div>
     </div>
 </div>
-@section Scripts{
-   
-}
