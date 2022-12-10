@@ -1,4 +1,4 @@
-﻿using Guitaria.Models.Admin;
+﻿using Guitaria.Core.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

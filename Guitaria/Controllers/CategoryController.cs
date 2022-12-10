@@ -1,7 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data.Models;
-using Guitaria.Models.Category;
-using Guitaria.Models.Product;
+using Guitaria.Core.Models.Category;
+using Guitaria.Core.Models.Product;
 using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

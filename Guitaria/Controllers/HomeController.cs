@@ -1,7 +1,7 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data.Models;
-using Guitaria.Models;
-using Guitaria.Models.Home;
+using Guitaria.Core.Models;
+using Guitaria.Core.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;

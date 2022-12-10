@@ -1,5 +1,5 @@
 ﻿using Guitaria.Contracts;
-using Guitaria.Models.Cart;
+using Guitaria.Core.Models.Cart;
 using Guitaria.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

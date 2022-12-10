@@ -1,6 +1,6 @@
 ﻿using Guitaria.Contracts;
 using Guitaria.Data.Models;
-using Guitaria.Models.Product;
+using Guitaria.Core.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

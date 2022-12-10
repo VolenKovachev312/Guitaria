@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Guitaria.Models.User;
+using Guitaria.Core.Models.User;
 
 namespace Guitaria.Controllers
 {

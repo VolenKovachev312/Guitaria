@@ -25,16 +25,16 @@ public class StartUp
             .AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-        builder.Services.AddControllersWithViews(options => 
+        builder.Services.AddControllersWithViews(options =>
         {
             options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
         });
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
-        
+
         builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/User/Login");
-        
+
         builder.Services.AddMemoryCache();
         var app = builder.Build();
 
@@ -60,10 +60,22 @@ public class StartUp
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.MapAreaControllerRoute(
+        name: "AdminArea",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+              name: "areas",
+              pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+            );
+        });
 
         app.Run();
     }
