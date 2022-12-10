@@ -69,13 +69,6 @@ public class StartUp
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
-        //app.UseEndpoints(endpoints =>
-        //{
-        //    endpoints.MapControllerRoute(
-        //      name: "Areas",
-        //      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-        //    );
-        //});
 
         app.Run();
     }
