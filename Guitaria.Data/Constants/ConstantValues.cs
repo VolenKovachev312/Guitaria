@@ -43,6 +43,10 @@
             public const string AdminEmail = "admin@gmail.com";
             public const string AdminUserName = "AdminUserName";
             public const string AdminPassword = "Admin12#";
+
+            public const string UserEmail = "user@gmail.com";
+            public const string UserUserName = "UserUserName";
+            public const string UserPassword = "User12#";
         }
     }
 }

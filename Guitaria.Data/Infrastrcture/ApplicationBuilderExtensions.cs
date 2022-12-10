@@ -44,7 +44,7 @@ namespace Guitaria.Infrastrcture
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             await CreateAdmin(userManager);
         }
-
+        
         private static async Task CreateRoleAsync(RoleManager<IdentityRole<Guid>> roleManager)
         {
             bool adminRoleExists = await roleManager.RoleExistsAsync(AdministratorRole);
@@ -57,7 +57,21 @@ namespace Guitaria.Infrastrcture
             await roleManager.CreateAsync(new IdentityRole<Guid>(AdministratorRole));
             await roleManager.CreateAsync(new IdentityRole<Guid>(UserRole));
         }
-
+        private static async Task CreateUser(UserManager<User> userManager)
+        {
+            User testUser = await userManager.FindByEmailAsync(UserEmail);
+            if (testUser != null)
+            {
+                return;
+            }
+            testUser = new User()
+            {
+                UserName = AdminUserName,
+                Email = AdminEmail
+            };
+            await userManager.CreateAsync(testUser, UserPassword);
+            await userManager.AddToRoleAsync(testUser, UserRole);
+        }
         private static async Task CreateAdmin(UserManager<User> userManager)
         {
             User testAdmin = await userManager.FindByEmailAsync(AdminEmail);
