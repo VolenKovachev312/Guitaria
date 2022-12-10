@@ -3,19 +3,15 @@ using System;
 using Guitaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Guitaria.Migrations
+namespace Guitaria.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221206194725_longerProductName")]
-    partial class longerProductName
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,6 +105,9 @@ namespace Guitaria.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("TimeAdded")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

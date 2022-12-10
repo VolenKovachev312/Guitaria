@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Guitaria.Migrations
+namespace Guitaria.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221206175307_initialize")]
-    partial class initialize
+    [Migration("20221206194725_longerProductName")]
+    partial class longerProductName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,8 +104,8 @@ namespace Guitaria.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

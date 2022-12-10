@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 
-namespace Guitaria.Controllers
+namespace Guitaria.Web.Controllers
 {
     public class HomeController : Controller
     {

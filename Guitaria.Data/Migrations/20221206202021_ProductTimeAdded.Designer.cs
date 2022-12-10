@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Guitaria.Migrations
+namespace Guitaria.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20221206202021_ProductTimeAdded")]

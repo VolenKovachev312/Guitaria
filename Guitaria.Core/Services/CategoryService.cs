@@ -2,8 +2,6 @@
 using Guitaria.Data.Models;
 using Guitaria.Core.Models.Category;
 using Guitaria.Contracts;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Guitaria.Core.Services

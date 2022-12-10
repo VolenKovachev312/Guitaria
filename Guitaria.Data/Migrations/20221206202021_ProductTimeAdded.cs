@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Guitaria.Migrations
+namespace Guitaria.Data.Migrations
 {
     public partial class ProductTimeAdded : Migration
     {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Guitaria.Controllers
+namespace Guitaria.Web.Controllers
 {
     public class ProductController : Controller
     {

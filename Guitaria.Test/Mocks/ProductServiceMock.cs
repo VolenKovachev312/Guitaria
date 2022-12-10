@@ -1,4 +1,4 @@
-﻿using Guitaria.Services;
+﻿using Guitaria.Core.Services;
 using Moq;
 
 namespace Guitaria.Test.Mocks

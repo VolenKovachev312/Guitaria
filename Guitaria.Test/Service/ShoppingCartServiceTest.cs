@@ -2,7 +2,6 @@
 using Guitaria.Core.Services;
 using Guitaria.Data;
 using Guitaria.Data.Models;
-using Guitaria.Services;
 using Guitaria.Test.Mocks;
 using Microsoft.EntityFrameworkCore;
 using System;

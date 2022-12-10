@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Guitaria.Migrations
+namespace Guitaria.Data.Migrations
 {
     public partial class longerProductName : Migration
     {

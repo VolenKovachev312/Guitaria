@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Guitaria.Core.Models.User;
 
-namespace Guitaria.Controllers
+namespace Guitaria.Web.Controllers
 {
     [Authorize]
     public class UserController : Controller

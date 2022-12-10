@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace Guitaria.Controllers
+namespace Guitaria.Web.Controllers
 {
     public class CategoryController : Controller
     {
