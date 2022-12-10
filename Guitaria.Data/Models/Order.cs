@@ -18,6 +18,6 @@ namespace Guitaria.Data.Models
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
-
+        public decimal FinalPrice { get; set; }
     }
 }

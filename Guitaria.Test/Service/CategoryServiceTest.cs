@@ -1,7 +1,7 @@
 ﻿using Guitaria.Core.Models.Category;
 using Guitaria.Data;
 using Guitaria.Data.Models;
-using Guitaria.Services;
+using Guitaria.Core.Services;
 using Guitaria.Test.Mocks;
 using NuGet.ContentModel;
 using System;

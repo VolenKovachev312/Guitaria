@@ -1,4 +1,5 @@
 ﻿using Guitaria.Contracts;
+using Guitaria.Core.Services;
 using Guitaria.Data;
 using Guitaria.Data.Models;
 using Guitaria.Services;

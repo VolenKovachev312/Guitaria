@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Guitaria.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User,IdentityRole<Guid>,Guid>
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,7 +18,7 @@ namespace Guitaria.Data
         public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
 
-        
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<OrderProduct>()
@@ -27,6 +27,6 @@ namespace Guitaria.Data
                 .HasKey(k => new { k.ShoppingCartId, k.ProductId });
             base.OnModelCreating(builder);
         }
-        
+
     }
 }

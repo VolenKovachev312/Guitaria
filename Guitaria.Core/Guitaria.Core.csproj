@@ -21,4 +21,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Guitaria.Data.csproj" />
+    <ProjectReference Include="..\Guitaria.Data\Guitaria.Data.csproj" />
+  </ItemGroup>
+
 </Project>

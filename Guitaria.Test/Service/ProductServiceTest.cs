@@ -1,19 +1,10 @@
-﻿using Guitaria.Controllers;
-using Guitaria.Data;
+﻿using Guitaria.Data;
 using Guitaria.Data.Models;
 using Guitaria.Core.Models.Product;
-using Guitaria.Services;
+using Guitaria.Core.Services;
 using Guitaria.Test.Mocks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MyTested.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
-using System.Runtime.InteropServices;
 
 namespace Guitaria.Test.Service
 {

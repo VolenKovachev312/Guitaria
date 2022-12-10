@@ -36,9 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\Guitaria.Data.csproj" />
-    <ProjectReference Include="..\Guitaria\Guitaria.Web.csproj" />
-    <ProjectReference Include="..\Services\Guitaria.Core.csproj" />
+    <ProjectReference Include="..\Guitaria.Core\Guitaria.Core.csproj" />
+    <ProjectReference Include="..\Guitaria.Data\Guitaria.Data.csproj" />
+    <ProjectReference Include="..\Guitaria.Web\Guitaria.Web.csproj" />
   </ItemGroup>
 
 </Project>

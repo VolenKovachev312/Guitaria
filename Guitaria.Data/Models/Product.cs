@@ -32,6 +32,12 @@ namespace Guitaria.Data.Models
         [ForeignKey(nameof(Category))]
         public Guid CategoryId { get; set; }
 
+        [Required]
+        public bool IsAvailable { get; set; } = true;
+
+        [Required]
+        public DateTime TimeAdded { get; set; } = DateTime.Now;
+
         public virtual Category Category { get; set; }
 
         public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts { get; set; }
