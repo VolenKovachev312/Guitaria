@@ -43,6 +43,7 @@ namespace Guitaria.Infrastrcture
 
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             await CreateAdmin(userManager);
+            await CreateUser(userManager);
         }
         
         private static async Task CreateRoleAsync(RoleManager<IdentityRole<Guid>> roleManager)
@@ -66,8 +67,8 @@ namespace Guitaria.Infrastrcture
             }
             testUser = new User()
             {
-                UserName = AdminUserName,
-                Email = AdminEmail
+                UserName = UserUserName,
+                Email = UserEmail
             };
             await userManager.CreateAsync(testUser, UserPassword);
             await userManager.AddToRoleAsync(testUser, UserRole);
